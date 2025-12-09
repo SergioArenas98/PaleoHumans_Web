@@ -1,59 +1,31 @@
-# PaleohumansFront
+🦴 PaleoHumans: The Upper Palaeolithic Homo sapiens Skeletal Record in Europe
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.4.
+A comprehensive, open-access database and visualization tool for archaeological bone remains.
 
-## Development server
+🌟 Project Overview
 
-To start a local development server, run:
+PaleoHumans is a scholarly web platform dedicated to cataloging, analyzing, and presenting all documented Homo sapiens skeletal and dental remains from the European Upper Paleolithic period.
 
-```bash
-ng serve
-```
+The project transforms data from a static spreadsheet into a dynamic, searchable, and easily updatable relational database, providing researchers, students, and the public with an accessible tool to explore this critical palaeoanthropological record.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+✨ Key Features
 
-## Code scaffolding
+Interactive Database: Full-text search and advanced filtering based on archaeological, chronological, and anatomical criteria.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Anatomical Filtering: Filter the record by specific bone types (e.g., Mandible, Femur, Teeth), a key improvement over the original spreadsheet.
 
-```bash
-ng generate component component-name
-```
+Geospatial Visualization: Interactive maps displaying the location of each archaeological site.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Detailed Records: Individual pages for each specimen or find, including references, dating information, and cultural/stratigraphic context.
 
-```bash
-ng generate --help
-```
+API Access: Well-documented RESTful API for external researchers or applications.
 
-## Building
+Data Curation: Secure system for authorized users to update the database with new discoveries or revised data.
 
-To build the project run:
+💻 Technology Stack Component Technology Rationale Frontend Angular Component-based architecture, enterprise-ready, leveraging Java/TypeScript knowledge. Backend (API) Java (Spring Boot) Fast, secure, scalable RESTful API service. Database PostgreSQL Powerful open-source relational database, ideal for modeling complex skeletal records. 📁 Data Source
 
-```bash
-ng build
-```
+The foundational data for PaleoHumans is derived from:
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Title: Overview of the European Upper Palaeolithic: The Homo sapiens bone record Authors: Sergio Arenas del Amo, Núria Armentano Oller, Joan Daura, Montserrat Sanz Source: Journal of Archaeological Science: Reports, 53 (2024), 104391
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+The original spreadsheet has been carefully normalized and modeled into a relational schema to ensure data integrity and enable advanced anatomical queries.
