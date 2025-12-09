@@ -1,0 +1,125 @@
+<div class="paleo-container">
+
+  <h1>PaleoData: Listado Completo</h1>
+
+  @if (isLoading) {
+    <p class="loading-message">Cargando todos los datos...</p>
+  }
+
+  @if (errorMessage) {
+    <div class="error-message">
+      {{ errorMessage }}
+    </div>
+  }
+
+  @if (sites.length > 0) {
+    <h2>1. 📍 Sites (Yacimientos) ({{ sites.length }} resultados)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>País</th>
+          <th>Región</th>
+          <th>Lat/Lon</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (site of sites; track $index) {
+          <tr>
+            <td>{{ site.id }}</td>
+            <td><strong>{{ site.site }}</strong></td>
+            <td>{{ site.country }}</td>
+            <td>{{ site.region }}</td>
+            <td>{{ site.latitude }}, {{ site.longitude }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+
+  @if (individuals.length > 0) {
+    <h2>2. 👤 Individuals (Individuos) ({{ individuals.length }} resultados)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Sitio</th>
+          <th>Edad</th>
+          <th>Sexo</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (individual of individuals; track $index) {
+          <tr>
+            <td>{{ individual.individualId }}</td>
+            <td><strong>{{ individual.individualName || 'N/A' }}</strong></td>
+            <td>{{ individual.site.site }}</td>
+            <td>{{ individual.ageAtDeath }}</td>
+            <td>{{ individual.sex }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+
+  @if (bones.length > 0) {
+    <h2>3. 🦴 Bones (Tipos de Hueso) ({{ bones.length }} resultados)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Hueso</th>
+          <th>Tipo Esqueleto</th>
+          <th>Lateralidad</th>
+          <th>Detalles (Snippet)</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (bone of bones; track $index) {
+          <tr>
+            <td>{{ bone.boneId }}</td>
+            <td><strong>{{ bone.bone }}</strong></td>
+            <td>{{ bone.skeletonType }}</td>
+            <td>{{ bone.laterality || 'N/A' }}</td>
+            <td>{{ bone.boneDetails?.substring(0, 40) + '...' || 'Sin detalles' }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+
+  @if (specimens.length > 0) {
+    <h2>4. 🔬 Specimens (Muestras) ({{ specimens.length }} resultados)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Hueso</th>
+          <th>Contexto Estrat.</th>
+          <th>Preserva</th>
+          <th>Fecha Calibrada</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (specimen of specimens; track $index) {
+          <tr>
+            <td>{{ specimen.id }}</td>
+            <td><strong>{{ specimen.specimenName || 'N/A' }}</strong></td>
+            <td>{{ specimen.bone.bone }}</td>
+            <td>{{ specimen.stratigraphicContext || 'N/A' }}</td>
+            <td>{{ specimen.preserveIndex }}</td>
+            <td>{{ specimen.datesBpCal || 'N/A' }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+
+  @if (!isLoading && sites.length === 0 && individuals.length === 0 && bones.length === 0 && specimens.length === 0 && !errorMessage) {
+    <p class="loading-message">No se encontró ningún dato en el sistema.</p>
+  }
+
+</div>
