@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { PaleoDataList } from "./components/site-list/paleo-data-list";
+import { RouterOutlet } from "@angular/router";
 
 
 @Component({
   selector: 'app-root',
-  imports: [PaleoDataList],
+  imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

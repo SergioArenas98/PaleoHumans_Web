@@ -1,0 +1,18 @@
+.database {
+  margin-top: 80px;
+  padding: 0 70px 80px;
+  text-align: center;
+}
+
+.database h2 {
+  font-family: Georgia, serif;
+  font-size: 34px;
+  margin-bottom: 40px;
+  color: #2a2a2a;
+}
+
+.cards {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}

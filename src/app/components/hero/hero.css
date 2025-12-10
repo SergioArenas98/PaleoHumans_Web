@@ -1,0 +1,68 @@
+:host {
+  display: block;
+  text-align: center;
+  padding-top: 40px;
+}
+
+.hero-title {
+  font-family: Georgia, serif;
+  font-size: 58px;
+  font-weight: 600;
+  color: #2a2a2a;
+  margin-top: 40px;
+}
+
+.subtitle {
+  font-size: 20px;
+  color: #2a2a2a;
+  margin: 10px 0 18px;
+}
+
+.description {
+  max-width: 650px;
+  margin: 0 auto;
+  color: #6f6f6f;
+}
+
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  margin-top: 35px;
+}
+
+.stats .number {
+  display: block;
+  font-size: 32px;
+  font-weight: 600;
+  color: #2a2a2a;
+}
+
+.buttons {
+  margin-top: 28px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.primary-btn {
+  background: #9c6b3f;
+  color: #ffffff;
+  padding: 12px 26px;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+}
+
+.primary-btn:hover {
+  background: #825a34;
+}
+
+.secondary-btn {
+  background: #ffffff;
+  border: 1px solid #e7e4dc;
+  color: #2a2a2a;
+  padding: 12px 26px;
+  border-radius: 6px;
+  font-size: 15px;
+}
