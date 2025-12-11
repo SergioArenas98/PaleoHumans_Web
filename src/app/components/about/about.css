@@ -1,0 +1,27 @@
+.about-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  padding-top: 20px;
+  padding-bottom: 50px;
+  color: #3e3227;
+  background: linear-gradient(#f7f3ef 0, #f4efe9 100%);
+}
+
+.about-wrapper h2 {
+  font-size: 32px;
+  margin-bottom: 32px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.about-wrapper p {
+  max-width: 850px;
+  width: 100%;
+  text-align: justify;
+  line-height: 1.75;
+  font-size: 17px;
+  margin-bottom: 22px;
+  color: #41372c;
+}

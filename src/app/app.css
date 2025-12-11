@@ -1,0 +1,9 @@
+h1, h2, h3 {
+  font-family: "Merriweather", serif;
+  font-weight: 600;
+}
+
+p, a, button, li {
+  font-family: "Inter", sans-serif;
+  color: yellow;
+}

@@ -1,6 +1,8 @@
 .card {
-  width: 310px;
-  background: #ffffff;
+  flex: 1 1 300px;
+  max-width: 310px;
+  background: linear-gradient(#f7f3ef 0, #f4efe9 100%);
+  background: #ece7df;
   border: 1px solid #e7e4dc;
   border-radius: 8px;
   padding: 26px;

@@ -1,0 +1,16 @@
+.footer {
+  background: #2e2a27;
+  padding: 40px 24px;
+  text-align: center;
+  color: #e6e0d9;
+}
+
+.footer p {
+  margin: 6px 0;
+  font-size: 15px;
+}
+
+.footer .note {
+  font-size: 14px;
+  opacity: .85;
+}

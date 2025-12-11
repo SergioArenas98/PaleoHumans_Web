@@ -1,24 +1,24 @@
 <div class="hero-container">
   <h1 class="hero-title">PaleoHumans</h1>
-  <p class="subtitle">European Upper Paleolithic Skeletal Record</p>
+  <p class="subtitle">European Upper Palaeolithic Skeletal Record</p>
 
   <p class="description">
-    A comprehensive, queryable database of Homo sapiens remains from 248
+    A comprehensive, queryable database of <em>Homo sapiens</em> remains from 248
     sites across Europe, spanning 45,000 to 10,000 years before present.
   </p>
 
   <div class="stats">
     <div>
-      <span class="number">10</span>
+      <span class="number">{{ (siteCount$ | async) || 0 }}</span> 
       <span>Sites</span>
     </div>
     <div>
-      <span class="number">10</span>
+      <span class="number">{{ (individualCount$ | async) || 0 }}</span>
       <span>Individuals</span>
     </div>
     <div>
-      <span class="number">8</span>
-      <span>Directly Dated</span>
+      <span class="number">{{ (boneCount$ | async) || 0 }}</span>
+      <span>Bones</span>
     </div>
   </div>
 

@@ -1,18 +1,24 @@
-.database {
+h2 {
+  padding-top: 50px;
+}
+
+.card-content-section {
   margin-top: 80px;
   padding: 0 70px 80px;
   text-align: center;
+  background-color: #ffffff;
 }
 
-.database h2 {
+.card-content-section h2 {
   font-family: Georgia, serif;
   font-size: 34px;
-  margin-bottom: 40px;
+  margin-bottom: 60px;
   color: #2a2a2a;
 }
 
 .cards {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 30px;
 }

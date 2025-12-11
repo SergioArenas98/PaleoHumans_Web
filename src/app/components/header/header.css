@@ -3,18 +3,30 @@
 }
 
 .top-nav {
-  background: #f7f6f2;
-  padding: 22px 70px;
+  background: linear-gradient(#f7f3ef 0, #f4efe9 100%);
+  padding: 0 70px;
+  height: 70px;
   border-bottom: 1px solid #e7e4dc;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
+.brand-logo {
+  height: 40px;
+  width: auto;
+  vertical-align: middle;
+}
+
 .brand {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.brand-text {
+  color: #000000;
   font-size: 20px;
-  font-weight: 600;
-  color: #2a2a2a;
 }
 
 nav {

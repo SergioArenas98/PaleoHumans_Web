@@ -52,10 +52,11 @@
   border: none;
   border-radius: 6px;
   font-size: 15px;
+  transition: background 0.2s;
 }
 
 .primary-btn:hover {
-  background: #825a34;
+  background: #7a5029;
 }
 
 .secondary-btn {
@@ -65,4 +66,15 @@
   padding: 12px 26px;
   border-radius: 6px;
   font-size: 15px;
+  transition: background 0.2s;
+}
+
+.secondary-btn:hover {
+  background: #f5f2ef;
+  border-color: #d6cfc4;
+}
+
+.stats div span:last-child {
+  color: #2a2a2a;
+  font-size: 16px;
 }
