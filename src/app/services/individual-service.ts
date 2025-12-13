@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Individual } from '../models/Individual';
-import { Observable } from 'rxjs';
+import { catchError, Observable, of, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -14,6 +14,14 @@ export class IndividualService {
 
   getAllIndividuals(): Observable<Individual[]> {
     return this.http.get<Individual[]>(`${this.baseUrl}/getAll`);
+  }
+
+  getIndividualsBySiteId(siteId: number): Observable<Individual[]> {
+    return this.http.get<Individual[]>(`${this.baseUrl}/site/${siteId}`).pipe(
+      catchError(error => {
+        return of([]);
+      })
+    );
   }
   
 }

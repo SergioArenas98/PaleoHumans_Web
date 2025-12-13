@@ -1,0 +1,27 @@
+<div class="table-wrapper">
+      @if (individuals.length === 0) {
+        <p class="no-individuals-note">No associated individuals found for this site.</p>
+      } @else {
+        <table class="individuals-data-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Sex</th>
+              <th>Age-at-Death (in years)</th>
+              <th>Age Class</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            @for (individual of individuals; track individual.individualId) {
+              <tr>
+                <td>{{ individual.individualName }}</td>
+                <td>{{ individual.sex }}</td>
+                <td>{{ individual.ageAtDeath }}</td>
+                <td>{{ individual.ageClass }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
+    </div>

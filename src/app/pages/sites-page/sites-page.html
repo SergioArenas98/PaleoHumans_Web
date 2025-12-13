@@ -1,0 +1,79 @@
+<app-header></app-header>
+
+<div class="sites-container">
+  
+  <div class="content-header">
+    <h1 class="page-title">Sites</h1>
+    @if (!isLoading) { 
+      <p class="subtitle-text">Browse {{ filteredSites.length }} Upper Paleolithic archaeological sites</p>
+    }
+    
+  </div>
+
+  <div class="filters-bar">
+    <div class="search-input">
+      <input 
+        type="text" 
+        placeholder="Search sites..." 
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="applyFilters()"
+      >
+      </div>
+
+    <select class="filter-select" [(ngModel)]="selectedCountry" (ngModelChange)="applyFilters()">
+      @for (country of countries; track country) {
+        <option [ngValue]="country">{{ country }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="sites-table-wrapper">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Site</th>
+          <th>Country</th>
+          <th>Location</th>
+          <th>Individuals</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (site of filteredSites; track site.id) {
+          <tr>
+            <td>{{ site.site }}</td>
+            <td>{{ site.country }}</td>
+            <td>{{ site.municipality }}, {{ site.region }}</td>
+            <td>{{ site.individualCount }}</td>
+            <td>
+              <button class="action-btn" (click)="viewDetails(site.id)">
+                View details
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  @if (isLoading) {
+    <div class="loading-state">
+      <span class="spinner"></span>
+      <p>Loading...</p>
+    </div>
+  }
+
+  @if (!isLoading) { 
+    <div class="sites-table-wrapper">
+      <table class="data-table">
+        </table>
+    </div>
+
+    @if (filteredSites.length === 0) {
+      <p class="no-results">No sites found matching your criteria.</p>
+    }
+  }
+
+</div>
+
+<app-footer></app-footer>

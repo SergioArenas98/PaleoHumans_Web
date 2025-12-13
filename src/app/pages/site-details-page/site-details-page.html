@@ -1,0 +1,68 @@
+<app-header></app-header>
+
+<div class="site-details-container">
+  
+  <button class="back-btn" (click)="goToSites()">
+    ← Back
+  </button>
+  
+  @if (isLoading) {
+    <div class="loading-state">
+      <span class="spinner"></span>
+      <p>Loading...</p>
+    </div>
+  }
+  
+  @if (errorMessage) {
+    <div class="error-message">{{ errorMessage }}</div>
+  }
+
+  @if (site) {
+    <div class="site-content">
+      
+      <h1 class="page-title">{{ site.site }}</h1>
+      <p class="location-info">{{ site.municipality }}, {{ site.region }}, {{ site.country }}</p>
+
+      <div class="main-layout">
+        
+        <div class="column-left">
+          
+          <section class="info-card">
+            <h2>Site Overview</h2>
+            <div class="details-grid">
+              <div><strong>Country: </strong> <span>{{ site.country }}</span></div>
+              <div><strong>Region: </strong> <span>{{ site.region }}</span></div>
+              <div><strong>Municipality: </strong> <span>{{ site.municipality }}</span></div>
+              <div><strong>Latitud: </strong> <span>{{ site.latitude }}</span></div>
+              <div><strong>Longitud: </strong> <span>{{ site.longitude }}</span></div>
+            </div>
+            </section>
+          
+            <section class="individuals-card">
+            <h2>Associated Individuals ({{ individuals.length }})</h2>
+            
+            <app-individual-table [individuals]="individuals"></app-individual-table>
+
+          </section>
+          
+        </div>
+        
+        <div class="column-right">
+          <section class="map-card">
+            <h2>Location</h2>
+            
+            <div class="map-container-wrapper">
+              <app-map 
+                [latitude]="site.latitude"
+                [longitude]="site.longitude"
+                [siteName]="site.site">
+              </app-map>
+            </div>
+            </section>
+        </div>
+      </div>
+    </div>
+  }
+</div>
+
+<app-footer></app-footer>

@@ -1,10 +1,13 @@
-// app.routes.ts
 import { Routes } from '@angular/router';
 import { HomePage } from './pages/home-page/home-page';
+import { MapPage } from './pages/map-page/map-page';
+import { SitesPage } from './pages/sites-page/sites-page';
+import { SiteDetailsPage } from './pages/site-details-page/site-details-page';
 
 export const routes: Routes = [
-  {
-    path: '',
-    component: HomePage
-  }
+  
+  { path: '', component: HomePage },
+  { path: 'map', component: MapPage },
+  { path: 'sites', component: SitesPage },
+  { path: 'sites/:id', component: SiteDetailsPage }
 ];

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap, catchError, of } from 'rxjs';
 import { Site } from '../models/Site';
 
 @Injectable({
@@ -14,6 +14,14 @@ export class SiteService {
 
   getAllSites(): Observable<Site[]> {
     return this.http.get<Site[]>(`${this.baseUrl}/getAll`);
+  }
+
+  getSiteById(id: number): Observable<Site> {
+    return this.http.get<Site>(`${this.baseUrl}/${id}`).pipe(
+      catchError(error => {
+        throw error;
+      })
+    );
   }
   
 }

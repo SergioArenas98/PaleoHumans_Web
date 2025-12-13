@@ -1,0 +1,25 @@
+:host {
+  display: block;
+  background: #f7f6f2;
+}
+
+.map-page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
+
+.page-title {
+  font-family: Georgia, serif;
+  font-size: 32px;
+  font-weight: 600;
+  color: #2a2a2a;
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
+.page-description {
+  font-size: 16px;
+  color: #6f6f6f;
+  margin-bottom: 20px;
+}

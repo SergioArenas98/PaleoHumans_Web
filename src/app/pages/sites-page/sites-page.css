@@ -1,0 +1,171 @@
+:host {
+  display: block;
+  background: #f7f6f2; /* Fondo de la home-page */
+}
+
+.sites-container {
+  padding: 40px 70px; /* Margen horizontal consistente con el header */
+  min-height: 80vh;
+}
+
+.content-header {
+  text-align: left;
+  margin-bottom: 30px;
+}
+
+.page-title {
+  font-family: Georgia, serif;
+  font-size: 42px;
+  font-weight: 600;
+  color: #2a2a2a;
+  margin: 0;
+}
+
+.subtitle-text {
+  font-size: 18px;
+  color: #6f6f6f;
+  margin-top: 5px;
+}
+
+/* --- Barra de Filtros --- */
+
+.filters-bar {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.search-input input,
+.filter-select {
+  padding: 10px 15px;
+  border: 1px solid #e7e4dc;
+  border-radius: 6px;
+  background: #ffffff;
+  font-size: 15px;
+  color: #2a2a2a;
+}
+
+.search-input input {
+  width: 300px;
+}
+
+.filter-select {
+  appearance: none;
+  cursor: pointer;
+}
+
+/* --- Tabla de Datos --- */
+
+.sites-table-wrapper {
+  overflow-x: auto;
+  background: #ffffff;
+  border: 1px solid #e7e4dc;
+  border-radius: 6px;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th, 
+.data-table td {
+  padding: 15px 20px;
+  text-align: left;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.data-table th {
+  background: #f7f3ef;
+  color: #2a2a2a;
+  font-weight: 600;
+  font-size: 15px;
+  text-transform: uppercase;
+}
+
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.data-table td {
+  font-size: 15px;
+  color: #4a4a4a;
+}
+
+/* Etiquetas (Cultural Phase) */
+.tag {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.tag-full-up {
+  background: #e7e4dc;
+  color: #2a2a2a;
+}
+
+/* Botón "View Details" */
+.action-btn {
+  background: none;
+  border: none;
+  color: #9c6b3f;
+  font-size: 15px;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.action-btn:hover {
+  color: #7a5029;
+}
+
+.no-results {
+  text-align: center;
+  padding: 40px 0;
+  color: #6f6f6f;
+  font-style: italic;
+}
+
+
+
+
+/* --- Estado de Carga --- */
+.loading-state {
+  text-align: center;
+  padding: 50px;
+  font-size: 18px;
+  color: #6f6f6f;
+}
+
+/* Opcional: Un spinner sencillo */
+.spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #ccc;
+  border-radius: 50%;
+  border-top-color: #9c6b3f; /* Color primario */
+  animation: spin 1s ease-in-out infinite;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.no-results {
+  text-align: center;
+  padding: 40px;
+  font-size: 16px;
+  color: #a0a0a0;
+  background: #fff;
+  border: 1px solid #e7e4dc;
+  border-radius: 6px;
+  margin-top: 30px;
+}
