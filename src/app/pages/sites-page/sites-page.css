@@ -169,3 +169,32 @@
   border-radius: 6px;
   margin-top: 30px;
 }
+
+/* Añade estos estilos al final del archivo CSS */
+
+.sortable-header {
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  transition: background-color 0.2s;
+}
+
+.sortable-header:hover {
+  background-color: #e8e2d8 !important;
+}
+
+.sortable-header::after {
+  display: inline-block;
+  margin-left: 8px;
+  font-size: 12px;
+  opacity: 0.5;
+}
+
+.sortable-header:hover::after {
+  opacity: 0.8;
+}
+
+/* Para indicar la columna ordenada actualmente */
+.data-table th[class*="sortable-header"]:active {
+  background-color: #d8d0c0;
+}

@@ -39,3 +39,37 @@
   color: #888;
   font-style: italic;
 }
+
+/* --- Agrega al final de individual-table.css --- */
+
+/* Hace que toda la fila sea clicable */
+.individuals-data-table tbody tr {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.individuals-data-table tbody tr:hover {
+  background-color: #f9f7f3;
+}
+
+/* Estilo para los enlaces dentro de la tabla */
+.individuals-data-table tbody tr a {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Elimina el subrayado solo del nombre */
+.individuals-data-table tbody tr td:first-child a {
+  color: #9c6b3f;
+  text-decoration: underline;
+  display: inline;
+  width: auto;
+  height: auto;
+}
+
+.individuals-data-table tbody tr td:first-child a:hover {
+  color: #7a5029;
+}

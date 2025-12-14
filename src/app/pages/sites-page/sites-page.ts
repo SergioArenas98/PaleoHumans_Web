@@ -15,6 +15,8 @@ interface SiteWithCount extends Site {
   specimenCount: number;
 }
 
+type SortColumn = 'site' | 'country' | 'location' | 'individualCount';
+
 @Component({
   selector: 'app-sites-page',
   standalone: true,
@@ -31,7 +33,8 @@ export class SitesPage implements OnInit {
   selectedPhase: string = 'All Phases';
   selectedRegion: string = 'All Regions';
   selectedCountry: string = 'All Countries';
-
+  sortColumn: SortColumn = 'site';
+  sortDirection: 'asc' | 'desc' = 'asc';
   countries: string[] = ['All Countries'];
 
   constructor(
@@ -41,7 +44,6 @@ export class SitesPage implements OnInit {
   ) {}
 
   ngOnInit(): void {
-
     this.isLoading = true;
     
     forkJoin({
@@ -49,7 +51,6 @@ export class SitesPage implements OnInit {
       individuals: this.individualService.getAllIndividuals()
     }).subscribe({
       next: ({ sites, individuals }) => {
-        
         const siteIndividualCounts = this.countIndividualsBySite(individuals);
         
         this.allSites = sites.map(site => ({
@@ -59,15 +60,14 @@ export class SitesPage implements OnInit {
         }));
         
         this.calculateAvailableCountries();
-        this.filteredSites = this.allSites;
+        this.filteredSites = [...this.allSites];
         this.applyFilters();
+        this.sortTable();
         
-        // ⬅️ CAMBIO CLAVE: SÓLO aquí marcamos que la carga ha terminado.
         this.isLoading = false; 
       },
       error: (err) => {
         console.error("Error al cargar datos del directorio de sitios:", err);
-        // ⬅️ IMPORTANTE: También marcamos que la carga ha terminado en caso de error.
         this.isLoading = false; 
       }
     });
@@ -91,7 +91,7 @@ export class SitesPage implements OnInit {
   }
 
   applyFilters(): void {
-    let tempSites = this.allSites;
+    let tempSites = [...this.allSites];
 
     if (this.searchTerm) {
       const lowerCaseTerm = this.searchTerm.toLowerCase();
@@ -105,9 +105,64 @@ export class SitesPage implements OnInit {
     }
 
     this.filteredSites = tempSites;
+    this.sortTable();
+  }
+
+  sortTable(column?: SortColumn): void {
+    if (column) {
+      if (this.sortColumn === column) {
+        this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+      } else {
+        this.sortColumn = column;
+        this.sortDirection = 'asc';
+      }
+    }
+
+    this.filteredSites.sort((a, b) => {
+      let valueA: any;
+      let valueB: any;
+
+      switch (this.sortColumn) {
+        case 'site':
+          valueA = a.site.toLowerCase();
+          valueB = b.site.toLowerCase();
+          break;
+        case 'country':
+          valueA = a.country.toLowerCase();
+          valueB = b.country.toLowerCase();
+          break;
+        case 'location':
+          valueA = `${a.municipality}, ${a.region}`.toLowerCase();
+          valueB = `${b.municipality}, ${b.region}`.toLowerCase();
+          break;
+        case 'individualCount':
+          valueA = a.individualCount;
+          valueB = b.individualCount;
+          break;
+        default:
+          return 0;
+      }
+
+      let comparison = 0;
+      
+      if (typeof valueA === 'string' && typeof valueB === 'string') {
+        comparison = valueA.localeCompare(valueB);
+      } else if (typeof valueA === 'number' && typeof valueB === 'number') {
+        comparison = valueA - valueB;
+      }
+
+      return this.sortDirection === 'asc' ? comparison : -comparison;
+    });
+  }
+
+  getSortIcon(column: SortColumn): string {
+    if (this.sortColumn !== column) {
+      return '↓';
+    }
+    return this.sortDirection === 'asc' ? '↑' : '↓';
   }
 
   viewDetails(siteId: number): void {
-    this.router.navigate(['/sites', siteId]);
+    this.router.navigate(['/site', siteId]);
   }
 }

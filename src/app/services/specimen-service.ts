@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Specimen } from '../models/Specimen';
 
@@ -14,6 +14,14 @@ export class SpecimenService {
   
   getAllSpecimens(): Observable<Specimen[]> {
     return this.http.get<Specimen[]>(`${this.baseUrl}/getAll`);
+  }
+
+  getSpecimensByIndividualId(individualId: number): Observable<Specimen[]> {
+    return this.http.get<Specimen[]>(`${this.baseUrl}/individual/${individualId}`).pipe(
+      catchError((error) => {
+        return of([]); 
+      })
+    );
   }
   
 }

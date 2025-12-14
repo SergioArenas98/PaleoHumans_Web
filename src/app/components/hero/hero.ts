@@ -5,6 +5,7 @@ import { SiteService } from '../../services/site-service';
 import { IndividualService } from '../../services/individual-service';
 import { BoneService } from '../../services/bone-service';
 import { AsyncPipe } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-hero',
@@ -21,23 +22,29 @@ export class HeroComponent implements OnInit {
   constructor(
     private siteService: SiteService,
     private individualService: IndividualService,
-    private boneService: BoneService
+    private boneService: BoneService,
+    private router: Router
   ) {}
 
   ngOnInit() {
-    // Obtiene todos los Sites y usa el operador map para obtener la longitud del array
     this.siteCount$ = this.siteService.getAllSites().pipe(
       map(sites => sites.length)
     );
 
-    // Obtiene todos los Individuals y usa el operador map para obtener la longitud del array
     this.individualCount$ = this.individualService.getAllIndividuals().pipe(
       map(individuals => individuals.length)
     );
 
-    // Obtiene todos los Bones y usa el operador map para obtener la longitud del array
     this.boneCount$ = this.boneService.getAllBones().pipe(
       map(bones => bones.length)
     );
+  }
+
+  navigateToMap() {
+    this.router.navigate(['/map']);
+  }
+
+  navigateToSites() {
+    this.router.navigate(['/sites']);
   }
 }

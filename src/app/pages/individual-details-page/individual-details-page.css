@@ -1,0 +1,281 @@
+:host {
+  display: block;
+  background: #f7f6f2; 
+}
+
+.individual-details-container {
+  padding: 40px 70px;
+  min-height: 80vh;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: #9c6b3f;
+  cursor: pointer;
+  font-size: 16px;
+  margin-bottom: 25px;
+  padding: 0;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.back-btn:hover {
+  color: #7a5230;
+}
+
+.page-title {
+  font-family: Georgia, serif;
+  font-size: 48px;
+  font-weight: 600;
+  color: #2a2a2a;
+  margin: 0;
+}
+
+.location-info {
+  font-size: 18px;
+  color: #6f6f6f;
+  margin-top: 5px;
+  margin-bottom: 30px;
+}
+
+.site-link-subtle {
+  color: #9c6b3f;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.site-link-subtle:hover {
+  color: #7a5230;
+  text-decoration: underline;
+}
+
+/* --- Layout Principal --- */
+.main-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+/* --- Estilos de las Tarjetas --- */
+.info-card, .specimens-card, .media-card {
+  background: #ffffff;
+  border: 1px solid #e7e4dc;
+  border-radius: 8px;
+  padding: 25px;
+  margin-bottom: 30px;
+}
+
+.info-card h2, .specimens-card h2, .media-card h2 {
+  font-size: 24px;
+  color: #2a2a2a;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 10px;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+/* Grid de detalles demográficos */
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px 10px;
+  font-size: 15px;
+  color: #2a2a2a; 
+}
+
+.details-grid strong {
+  color: #4a4a4a; 
+}
+
+.details-grid div {
+  display: flex;
+  gap: 8px;
+}
+
+/* Contenedor de tabla */
+.table-container {
+  overflow-x: auto;
+}
+
+/* Tabla de especímenes */
+/* Estilos para tabla de especímenes */
+.specimens-table tbody tr {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.specimens-table tbody tr:hover {
+  background-color: #f9f7f3;
+}
+
+.specimens-table tbody tr a {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.specimens-table tbody tr td:first-child a {
+  color: #9c6b3f;
+  text-decoration: underline;
+  display: inline;
+  width: auto;
+  height: auto;
+}
+
+.specimens-table tbody tr td:first-child a:hover {
+  color: #7a5029;
+}
+
+.specimens-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: white;
+}
+
+.specimens-table thead {
+  background-color: #f7f3ef;
+  border-bottom: 2px solid #e7e4dc;
+}
+
+.specimens-table th {
+  text-align: left;
+  padding: 12px 15px;
+  font-weight: 600;
+  color: #2a2a2a;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+}
+
+.specimens-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #f0f0f0;
+  color: #2a2a2a;
+}
+
+.specimens-table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.specimens-table tbody tr:hover {
+  background-color: #fafaf9;
+}
+
+.specimens-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Filas clickeables */
+.clickable-row {
+  cursor: pointer;
+}
+
+.clickable-row:hover {
+  background-color: #f9f8f6 !important;
+}
+
+/* Placeholders */
+.media-placeholder, .table-placeholder {
+  height: 200px;
+  background-color: #f9f8f6;
+  border: 1px dashed #e7e4dc;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #999;
+  font-style: italic;
+  text-align: center;
+  font-size: 15px;
+}
+
+.table-placeholder {
+  height: auto;
+  min-height: 150px;
+  padding: 30px;
+}
+
+/* Loading state */
+.loading-state {
+  text-align: center;
+  padding: 50px;
+  font-size: 18px;
+  color: #6f6f6f;
+}
+
+.spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #ccc;
+  border-radius: 50%;
+  border-top-color: #9c6b3f;
+  animation: spin 1s ease-in-out infinite;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error message */
+.error-message {
+  color: #d32f2f;
+  background-color: #ffebee;
+  padding: 15px 20px;
+  border-radius: 8px;
+  border-left: 4px solid #d32f2f;
+  margin: 20px 0;
+  font-size: 15px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .individual-details-container {
+    padding: 30px 40px;
+  }
+  
+  .main-layout {
+    grid-template-columns: 1fr;
+  }
+  
+  .details-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .individual-details-container {
+    padding: 20px;
+  }
+  
+  .page-title {
+    font-size: 32px;
+  }
+  
+  .location-info {
+    font-size: 16px;
+  }
+  
+  .specimens-table {
+    font-size: 12px;
+  }
+  
+  .specimens-table th,
+  .specimens-table td {
+    padding: 8px 10px;
+  }
+  
+  .view-link {
+    padding: 4px 10px;
+    font-size: 12px;
+  }
+}

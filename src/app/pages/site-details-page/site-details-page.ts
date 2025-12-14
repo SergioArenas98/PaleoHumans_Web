@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { CommonModule, ViewportScroller } from '@angular/common';
 import { SiteService } from '../../services/site-service';
 import { IndividualService } from '../../services/individual-service';
 import { Site } from '../../models/Site';
@@ -29,10 +29,14 @@ export class SiteDetailsPage implements OnInit {
     private route: ActivatedRoute,
     private siteService: SiteService,
     private individualService: IndividualService,
-    private router: Router
+    private router: Router,
+    private viewportScroller: ViewportScroller
   ) {}
 
   ngOnInit(): void {
+
+    this.viewportScroller.scrollToPosition([0, 0]);
+
     this.route.paramMap.pipe(
       switchMap(params => {
         const idParam = params.get('id');
