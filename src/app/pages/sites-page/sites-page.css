@@ -1,10 +1,10 @@
 :host {
   display: block;
-  background: #f7f6f2; /* Fondo de la home-page */
+  background: #f7f6f2;
 }
 
 .sites-container {
-  padding: 40px 70px; /* Margen horizontal consistente con el header */
+  padding: 40px 70px;
   min-height: 80vh;
 }
 
@@ -26,8 +26,6 @@
   color: #6f6f6f;
   margin-top: 5px;
 }
-
-/* --- Barra de Filtros --- */
 
 .filters-bar {
   display: flex;
@@ -53,8 +51,6 @@
   appearance: none;
   cursor: pointer;
 }
-
-/* --- Tabla de Datos --- */
 
 .sites-table-wrapper {
   overflow-x: auto;
@@ -92,7 +88,6 @@
   color: #4a4a4a;
 }
 
-/* Etiquetas (Cultural Phase) */
 .tag {
   display: inline-block;
   padding: 4px 10px;
@@ -106,7 +101,6 @@
   color: #2a2a2a;
 }
 
-/* Botón "View Details" */
 .action-btn {
   background: none;
   border: none;
@@ -129,10 +123,6 @@
   font-style: italic;
 }
 
-
-
-
-/* --- Estado de Carga --- */
 .loading-state {
   text-align: center;
   padding: 50px;
@@ -140,14 +130,13 @@
   color: #6f6f6f;
 }
 
-/* Opcional: Un spinner sencillo */
 .spinner {
   display: inline-block;
   width: 20px;
   height: 20px;
   border: 3px solid #ccc;
   border-radius: 50%;
-  border-top-color: #9c6b3f; /* Color primario */
+  border-top-color: #9c6b3f;
   animation: spin 1s ease-in-out infinite;
   margin-right: 10px;
   vertical-align: middle;
@@ -169,8 +158,6 @@
   border-radius: 6px;
   margin-top: 30px;
 }
-
-/* Añade estos estilos al final del archivo CSS */
 
 .sortable-header {
   cursor: pointer;
@@ -194,7 +181,6 @@
   opacity: 0.8;
 }
 
-/* Para indicar la columna ordenada actualmente */
 .data-table th[class*="sortable-header"]:active {
   background-color: #d8d0c0;
 }

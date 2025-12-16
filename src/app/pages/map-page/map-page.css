@@ -3,23 +3,84 @@
   background: #f7f6f2;
 }
 
+div-info {
+  text-align: center;
+  padding: 40px;
+}
+
 .map-page-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 30px 20px;
+  padding: 40px 70px; /* Mismo padding que sites-container */
+  min-height: 80vh;
 }
 
 .page-title {
   font-family: Georgia, serif;
-  font-size: 32px;
+  font-size: 42px;
   font-weight: 600;
   color: #2a2a2a;
-  margin-top: 0;
-  margin-bottom: 8px;
+  margin: 0;
 }
 
 .page-description {
-  font-size: 16px;
+  font-size: 18px;
   color: #6f6f6f;
-  margin-bottom: 20px;
+  margin-top: 5px;
+  margin-bottom: 30px;
+}
+
+.maps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.map-card {
+  background: white;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.map-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.site-name {
+  font-family: Georgia, serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: #2a2a2a;
+  margin: 0 0 4px 0;
+}
+
+.site-location {
+  font-size: 14px;
+  color: #6f6f6f;
+  margin: 0 0 12px 0;
+}
+
+.map-container { 
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 0 40px 0;
+}
+
+.map-wrapper {
+  height: 650px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 40px;
+}
+
+@media (max-width: 768px) {
+  .maps-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .map-page-container {
+    padding: 30px 20px; /* Padding reducido en móvil */
+  }
 }

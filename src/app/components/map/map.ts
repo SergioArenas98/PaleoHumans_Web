@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, AfterViewInit, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, OnDestroy, Inject, PLATFORM_ID, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 @Component({
@@ -13,6 +13,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() latitude!: number | string; 
   @Input() longitude!: number | string;
   @Input() siteName!: string;
+
+  @ViewChild('mapContainer', { static: true }) mapContainer!: ElementRef;
 
   private map: any;
   private isBrowser: boolean;
@@ -70,10 +72,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     
     L.Marker.prototype.options.icon = iconDefault;
 
-    this.map = L.map('site-map', {
-        center: [this.lat, this.lon], 
-        zoom: 5
-    });
+    this.map = L.map(this.mapContainer.nativeElement, {
+            center: [this.lat, this.lon], 
+            zoom: 5
+        });
 
     const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,

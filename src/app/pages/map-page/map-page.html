@@ -3,9 +3,28 @@
 <div class="map-page-container">
   <h1 class="page-title">Map Explorer</h1>
   <p class="page-description">
-    Geographic distribution of Upper Paleolithic sites across Europe
+    Geographic distribution of Upper Palaeolithic sites across Europe
   </p>
+  
+  @if (isLoading) {
+    <div class="div-info">
+      <p>Loading sites...</p>
+    </div>
+  }
 
+  @if (!isLoading && sites.length > 0) {
+    <div class="map-container">
+        <div class="map-wrapper">
+            <app-map-cluster [sites]="sites"></app-map-cluster>
+        </div>
+    </div>
+  }
+
+  @if (!isLoading && sites.length === 0) {
+    <div class="div-info">
+      <p>No sites found.</p>
+    </div>
+  }
 </div>
 
 <app-footer></app-footer>
