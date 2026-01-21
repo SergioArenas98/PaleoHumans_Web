@@ -170,15 +170,6 @@
   border-bottom: none;
 }
 
-/* Filas clickeables */
-.clickable-row {
-  cursor: pointer;
-}
-
-.clickable-row:hover {
-  background-color: #f9f8f6 !important;
-}
-
 /* Placeholders */
 .media-placeholder, .table-placeholder {
   height: 200px;
@@ -278,4 +269,28 @@
     padding: 4px 10px;
     font-size: 12px;
   }
+}
+
+.individual-sub-section {
+  padding: 15px 0;
+}
+
+.ind-name {
+  font-size: 1.2rem;
+  color: #9c6b3f;
+  margin-bottom: 10px;
+  border-left: 3px solid #9c6b3f;
+  padding-left: 10px;
+}
+
+.divider {
+  border: 0;
+  border-top: 1px solid #eee;
+  margin: 20px 0;
+}
+
+.no-data {
+  font-style: italic;
+  color: #888;
+  padding: 20px;
 }

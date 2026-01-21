@@ -1,95 +1,125 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { CommonModule, ViewportScroller } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { SiteService } from '../../services/site-service';
-import { IndividualService } from '../../services/individual-service';
+import { OsteologicalUnitService } from '../../services/osteological-unit-service';
 import { Site } from '../../models/Site';
-import { Individual } from '../../models/Individual';
+import { UnitType } from '../../models/UnitType';
+import { OsteologicalUnit } from '../../models/OsteologicalUnit';
 import { HeaderComponent } from "../../components/header/header";
 import { FooterComponent } from "../../components/footer/footer";
-import { switchMap } from 'rxjs/operators';
-import { IndividualTable } from '../../components/individual-table/individual-table';
-import { MapComponent } from '../../components/map/map';
 
 @Component({
   selector: 'app-site-details-page',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, FooterComponent, RouterModule, IndividualTable, MapComponent], 
+  imports: [CommonModule, HeaderComponent, FooterComponent, RouterModule], 
   templateUrl: './site-details-page.html',
   styleUrl: './site-details-page.css'
 })
 export class SiteDetailsPage implements OnInit {
   
   site: Site | undefined;
-  individuals: Individual[] = [];
+  groupedUnits: { [key in UnitType]?: OsteologicalUnit[] } = {};
+  unitTypes = Object.values(UnitType);
   isLoading: boolean = true;
   errorMessage: string | undefined;
 
   constructor(
     private route: ActivatedRoute,
     private siteService: SiteService,
-    private individualService: IndividualService,
+    private unitService: OsteologicalUnitService,
     private router: Router,
-    private viewportScroller: ViewportScroller
   ) {}
 
   ngOnInit(): void {
-
-    this.viewportScroller.scrollToPosition([0, 0]);
-
-    this.route.paramMap.pipe(
-      switchMap(params => {
-        const idParam = params.get('id');
-        if (idParam && !isNaN(+idParam)) {
-          const siteId = +idParam;
-          return this.siteService.getSiteById(siteId);
-        }
-        return new Promise<Site | undefined>(resolve => resolve(undefined)).then(() => {});
-      })
-    ).subscribe({
-      next: (siteData) => {
-        if (siteData) {
+    const idParam = this.route.snapshot.paramMap.get('id');
+    if (idParam) {
+      const siteId = Number(idParam);
+      this.siteService.getSiteById(siteId).subscribe({
+        next: (siteData) => {
           this.site = siteData;
-          
-          this.individualService.getIndividualsBySiteId(siteData.id).subscribe({
-            next: (individualsData) => {
-              
-              this.individuals = individualsData.sort((a, b) => {
-                const idA = a.individualId ? String(a.individualId).toUpperCase() : '';
-                const idB = b.individualId ? String(b.individualId).toUpperCase() : '';
+          this.loadUnits(siteId);
+        },
+        error: (err) => this.handleError("Error loading site details.")
+      });
+    } else {
+      this.errorMessage = "Site ID is missing.";
+      this.isLoading = false;
+    }
+  }
+
+  getUnitTypeLabel(type: string): string {
+    const unitType = type.toLowerCase();
+
+    switch (unitType) {
+      case 'individual':
+        return 'Individuals';
+      case 'mixed individuals':
+        return 'Mixed Individuals';
+      case 'unassigned assemblage':
+        return 'Unidentified Bone Groups';
+      default:
+        return type.replace(/_/g, ' ').toLowerCase()
+                  .replace(/\b\w/g, l => l.toUpperCase());
+    }
+  }
+
+  goToUnit(unitId: number) {
+    this.router.navigate(['/unit', unitId]);
+  }
+
+  loadUnits(siteId: number) {
+    this.unitService.getAllUnits().subscribe({
+      next: (allUnits: OsteologicalUnit[]) => {
+        const siteUnits = allUnits.filter(u => u.site.siteId === siteId);
+        
+        this.groupedUnits = {};
+        
+        siteUnits.forEach((unit: OsteologicalUnit) => {
+          const type = unit.unitType;
+          if (!this.groupedUnits[type]) {
+            this.groupedUnits[type] = [];
+          }
+          this.groupedUnits[type]?.push(unit);
+        });
+
+        Object.keys(this.groupedUnits).forEach(key => {
+          const typeKey = key as UnitType;
+          const units = this.groupedUnits[typeKey];
+
+          if (units) {
+            units.sort((a, b) => {
+              if (typeKey === UnitType.INDIVIDUAL) {
+                const nameA = a.individuals?.[0]?.individualName || '';
+                const nameB = b.individuals?.[0]?.individualName || '';
                 
-                if (idA < idB) {
-                  return -1;
-                }
-                if (idA > idB) {
-                  return 1;
-                }
-                return 0;
-              });
-              
-              this.isLoading = false;
-            },
-            error: (err) => {
-              console.error("Error loading individuals:", err);
-              this.errorMessage = "Error loading associated individuals.";
-              this.isLoading = false;
-            }
-          });
-          
-        } else {
-          this.errorMessage = "Site ID is missing or invalid.";
-          this.isLoading = false;
-        }
-      },
-      error: (err) => {
-        this.errorMessage = "Error loading site details. Check API connection.";
+                return nameA.localeCompare(nameB, undefined, { 
+                  numeric: true, 
+                  sensitivity: 'base' 
+                });
+              }
+
+              const valA = a.stratigraphicContext ?? '';
+              const valB = b.stratigraphicContext ?? '';
+              return valA.localeCompare(valB, undefined, { numeric: true });
+            });
+          }
+        });
+
         this.isLoading = false;
-        console.error(err);
-      }
+      },
+      error: (err) => this.handleError("Error loading osteological units.")
     });
   }
-  
-  goToSites() {
+
+  // Creamos el método handleError que faltaba
+  private handleError(message: string) {
+    this.errorMessage = message;
+    this.isLoading = false;
+    console.error(message);
+  }
+
+  goToSites(): void {
     this.router.navigate(['/sites']);
   }
 }

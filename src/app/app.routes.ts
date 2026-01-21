@@ -3,7 +3,7 @@ import { HomePage } from './pages/home-page/home-page';
 import { MapPage } from './pages/map-page/map-page';
 import { SitesPage } from './pages/sites-page/sites-page';
 import { SiteDetailsPage } from './pages/site-details-page/site-details-page';
-import { IndividualDetailsPage } from './pages/individual-details-page/individual-details-page';
+import { UnitDetailsPage } from './pages/unit-details-page/unit-details-page';
 
 export const routes: Routes = [
   
@@ -11,5 +11,5 @@ export const routes: Routes = [
   { path: 'map', component: MapPage },
   { path: 'sites', component: SitesPage },
   { path: 'site/:id', component: SiteDetailsPage },
-  { path: 'individual/:id', component: IndividualDetailsPage }
+  { path: 'unit/:id', component: UnitDetailsPage }
 ];

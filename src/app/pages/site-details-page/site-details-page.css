@@ -72,7 +72,7 @@
   color: #4a4a4a; 
 }
 
-/* Contenedor para el mapa - REVISADO */
+/* Contenedor para el mapa */
 .map-container-wrapper {
   height: 500px;
   border-radius: 4px;
@@ -128,3 +128,61 @@
     transform: rotate(360deg);
   }
 }
+
+.paleo-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.paleo-table th {
+  text-align: left;
+  padding: 10px;
+  border-bottom: 2px solid #f0f0f0;
+  color: #666;
+}
+
+.paleo-table td {
+  padding: 10px;
+  border-bottom: 1px solid #f9f9f9;
+  color: #000000;
+}
+
+.view-btn {
+  background-color: #9c6b3f;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+/* Fila clicable */
+.clickable-row {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.clickable-row:hover {
+  background-color: #f0ede4 !important; /* Un tono crema suave para el resaltado */
+}
+
+/* Color negro para el texto de la tabla */
+.text-black {
+  color: #000000 !important;
+}
+
+.paleo-table th {
+  color: #000000;
+  font-weight: bold;
+  border-bottom: 2px solid #e0e0e0;
+  padding: 12px 8px;
+}
+
+.paleo-table td {
+  padding: 12px 8px;
+  border-bottom: 1px solid #f0f0f0;
+}
+

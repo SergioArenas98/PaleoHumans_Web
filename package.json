@@ -34,6 +34,7 @@
     "@netlify/angular-runtime": "^3.0.1",
     "express": "^5.1.0",
     "leaflet": "^1.9.4",
+    "leaflet.markercluster": "^1.5.3",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
@@ -46,6 +47,7 @@
     "@types/jasmine": "~5.1.0",
     "@types/leaflet": "^1.9.21",
     "@types/node": "^20.17.19",
+    "baseline-browser-mapping": "^2.9.17",
     "jasmine-core": "~5.9.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",

@@ -1,8 +1,91 @@
-<footer class="footer">
-  <p>
-    © 2026 PaleoHumans. A scientific database of Upper Palaeolithic skeletal remains.
-  </p>
-  <p class="note">
-    For research and educational purposes.
-  </p>
+<footer class="ph-footer">
+  <div class="ph-footer__inner">
+    <div class="ph-footer__grid">
+
+      <section class="ph-footer__col">
+        <div class="ph-footer__brand">
+          <img src="logo.png" alt="PaleoHumans logo" class="brand-logo">
+          <div class="ph-footer__brandtext">
+            <div class="ph-footer__title">PaleoHumans</div>
+            <div class="ph-footer__subtitle">Upper Paleolithic Database</div>
+          </div>
+        </div>
+
+        <p class="ph-footer__about">
+          A peer-reviewed database of Homo sapiens skeletal remains from the European Upper Paleolithic, designed for
+          researchers, students, and the public.
+        </p>
+      </section>
+
+      <section class="ph-footer__col">
+        <h3 class="ph-footer__heading">Explore</h3>
+        <ul class="ph-footer__list">
+          <li><a class="ph-footer__link" routerLink="/sites">Browse Sites</a></li>
+          <li><a class="ph-footer__link" routerLink="/map">Interactive Map</a></li>
+          <li><a class="ph-footer__link" routerLink="/timeline">Timeline Explorer</a></li>
+          <li><a class="ph-footer__link" routerLink="/data">Data Explorer</a></li>
+        </ul>
+      </section>
+
+      <section class="ph-footer__col">
+        <h3 class="ph-footer__heading">Resources</h3>
+        <ul class="ph-footer__list">
+          <li>
+            <a class="ph-footer__link" routerLink="/methodology">
+              <span class="ms ph-footer__icon" aria-hidden="true">menu_book</span>
+              Methodology
+            </a>
+          </li>
+          <li>
+            <a class="ph-footer__link" href="#" rel="noopener">
+              <span class="ms ph-footer__icon" aria-hidden="true">database</span>
+              API Documentation
+            </a>
+          </li>
+          <li>
+            <a class="ph-footer__link" href="#" rel="noopener">
+              <span class="ms ph-footer__icon" aria-hidden="true">open_in_new</span>
+              Publications
+            </a>
+          </li>
+          <li><a class="ph-footer__link" href="#" rel="noopener">How to Cite</a></li>
+        </ul>
+      </section>
+
+      <section class="ph-footer__col">
+        <h3 class="ph-footer__heading">Contact</h3>
+
+        <a class="ph-footer__link" href="mailto:contact@paleohumans.org">
+          <span class="ms ph-footer__icon" aria-hidden="true">mail</span>
+          contact@paleohumans.org
+        </a>
+
+        <div class="ph-footer__aff">
+          <div class="ph-footer__afflabel">Institutional Affiliations</div>
+          <ul class="ph-footer__afflist">
+            <li>University of Archaeological Sciences</li>
+            <li>European Paleolithic Research Institute</li>
+            <li>International Paleoanthropology Consortium</li>
+          </ul>
+        </div>
+      </section>
+
+    </div>
+
+    <div class="ph-footer__bottom">
+      <div class="ph-footer__legal">
+        © {{ currentYear }} PaleoHumans Database. All rights reserved.
+        <span class="ph-footer__legal-sep">·</span>
+        Licensed under <a class="ph-footer__link ph-footer__link--inline" href="#" rel="noopener">CC BY-SA 4.0</a>
+      </div>
+
+      <div class="ph-footer__policies">
+        <a class="ph-footer__link ph-footer__link--inline" href="#" rel="noopener">Privacy Policy</a>
+        <span class="ph-footer__dot">•</span>
+        <a class="ph-footer__link ph-footer__link--inline" href="#" rel="noopener">Terms of Use</a>
+        <span class="ph-footer__dot">•</span>
+        <a class="ph-footer__link ph-footer__link--inline" href="#" rel="noopener">Data Policy</a>
+      </div>
+    </div>
+  </div>
 </footer>

@@ -1,30 +1,98 @@
 <app-header></app-header>
 
-<div class="map-page-container">
-  <h1 class="page-title">Map Explorer</h1>
-  <p class="page-description">
-    Geographic distribution of Upper Palaeolithic sites across Europe
-  </p>
-  
-  @if (isLoading) {
-    <div class="div-info">
-      <p>Loading sites...</p>
-    </div>
-  }
+<main class="map-page">
+  <div class="map-shell">
+    <header class="map-head">
+      <div class="map-head__txt">
+        <h1 class="map-title">Map Explorer</h1>
+        <p class="map-subtitle">Browse sites geographically and jump to records from the map.</p>
+      </div>
 
-  @if (!isLoading && sites.length > 0) {
-    <div class="map-container">
-        <div class="map-wrapper">
-            <app-map-cluster [sites]="sites"></app-map-cluster>
+      <div class="map-head__meta" aria-live="polite">
+        <span class="pill">
+          <span class="pill__label">Results</span>
+          <span class="pill__value">{{ filteredSites.length }}</span>
+        </span>
+      </div>
+    </header>
+
+    <section class="filters" aria-label="Map filters">
+      <div class="filters__grid">
+        <div class="field">
+          <label class="label" for="q">Search</label>
+          <div class="control">
+            <span class="ms ic" aria-hidden="true">search</span>
+            <input
+              id="q"
+              class="input input--ic"
+              type="text"
+              placeholder="Site, region, municipality, country."
+              [(ngModel)]="query"
+              (ngModelChange)="applyFilters()"
+              autocomplete="off"
+            />
+          </div>
         </div>
-    </div>
-  }
 
-  @if (!isLoading && sites.length === 0) {
-    <div class="div-info">
-      <p>No sites found.</p>
-    </div>
-  }
-</div>
+        <div class="field">
+          <label class="label" for="country">Country</label>
+          <div class="control">
+            <select
+              id="country"
+              class="select"
+              [(ngModel)]="selectedCountry"
+              (ngModelChange)="applyFilters()"
+            >
+              @for (c of countries; track c) {
+                <option [ngValue]="c">{{ c }}</option>
+              }
+            </select>
+            <span class="ms ic ic--chev" aria-hidden="true">expand_more</span>
+          </div>
+        </div>
+
+        <div class="field field--actions">
+          <button class="link" type="button" (click)="clear()">Clear</button>
+        </div>
+      </div>
+    </section>
+
+    @if (isLoading) {
+      <section class="state" aria-label="Loading">
+        <div class="state__card">
+          <span class="spinner" aria-hidden="true"></span>
+          <span>Loading sites and map.</span>
+        </div>
+      </section>
+    }
+
+    @if (!isLoading && filteredSites.length === 0) {
+      <section class="state" aria-label="No results">
+        <div class="state__card">
+          <span>No sites match your filters.</span>
+        </div>
+      </section>
+    }
+
+    @if (!isLoading && filteredSites.length > 0) {
+      <section class="map-card" aria-label="Interactive map">
+        <app-map [sites]="filteredSites"></app-map>
+
+        <aside class="legend" aria-label="Legend">
+          <div class="legend__title">Legend</div>
+          <div class="legend__row">
+            <span class="legend__dot legend__dot--marker" aria-hidden="true"></span>
+            <span>Site</span>
+          </div>
+          <div class="legend__row">
+            <span class="legend__dot legend__dot--cluster" aria-hidden="true"></span>
+            <span>Cluster</span>
+          </div>
+          <div class="legend__hint">Zoom in to expand clusters.</div>
+        </aside>
+      </section>
+    }
+  </div>
+</main>
 
 <app-footer></app-footer>

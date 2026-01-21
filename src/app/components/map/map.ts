@@ -1,99 +1,245 @@
-import { Component, Input, OnInit, AfterViewInit, OnDestroy, Inject, PLATFORM_ID, ViewChild, ElementRef } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Inject,
+  Input,
+  OnChanges,
+  OnDestroy,
+  PLATFORM_ID,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Router } from '@angular/router';
+import { Site } from '../../models/Site';
 
 @Component({
   selector: 'app-map',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './map.html',
-  styleUrl: './map.css'
+  styleUrls: ['./map.css']
 })
-export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
-  
-  @Input() latitude!: number | string; 
-  @Input() longitude!: number | string;
-  @Input() siteName!: string;
+export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
+  @Input() sites: Site[] = [];
 
-  @ViewChild('mapContainer', { static: true }) mapContainer!: ElementRef;
+  @ViewChild('mapEl', { static: true }) mapEl!: ElementRef<HTMLDivElement>;
+
+  private readonly isBrowser: boolean;
 
   private map: any;
-  private isBrowser: boolean;
-  private lat: number = 0;
-  private lon: number = 0;
+  private cluster: any;
+  private L: any;
+
+  private resizeObs?: ResizeObserver;
+  private initDone = false;
 
   constructor(
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) platformId: object,
+    private readonly router: Router
   ) {
-    this.isBrowser = isPlatformBrowser(platformId); 
-  }
-  
-  ngOnInit(): void {
-
-    this.lat = this.cleanAndParse(this.latitude);
-    this.lon = this.cleanAndParse(this.longitude);
-
-    if (this.lat === 0 || this.lon === 0) {
-      console.error("Invalid or zero coordinates after cleaning. Map will not load.");
-    }
+    this.isBrowser = isPlatformBrowser(platformId);
   }
 
-  private cleanAndParse(value: number | string): number {
-    if (typeof value === 'number') {
-      return value;
-    }
-    if (typeof value === 'string') {
-      const cleanedValue = value.replace(',', '.');
-      const parsedValue = parseFloat(cleanedValue);
-      return isNaN(parsedValue) ? 0 : parsedValue;
-    }
-    return 0;
-  }
+  async ngAfterViewInit(): Promise<void> {
+    if (!this.isBrowser) return;
 
-  ngAfterViewInit(): void {
-    if (this.isBrowser && this.lat !== 0 && this.lon !== 0) {
-        this.initMap();
-    }
-  }
+    await this.init();
+    this.render();
 
-  private async initMap(): Promise<void> {
-    const L = await import('leaflet');
-
-    delete (L as any).Marker.prototype.options.icon;
-    
-    const iconDefault = L.icon({
-        iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
-        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-        shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
+    this.resizeObs = new ResizeObserver(() => {
+      if (this.map) this.map.invalidateSize();
     });
-    
-    L.Marker.prototype.options.icon = iconDefault;
+    this.resizeObs.observe(this.mapEl.nativeElement);
+  }
 
-    this.map = L.map(this.mapContainer.nativeElement, {
-            center: [this.lat, this.lon], 
-            zoom: 5
-        });
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!this.isBrowser) return;
+    if (!this.initDone) return;
 
-    const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    if (changes['sites']) {
+      this.render();
+    }
+  }
+
+  private async init(): Promise<void> {
+    if (this.initDone) return;
+
+    const Leaflet = await import('leaflet');
+    const L = (Leaflet as any).default ?? Leaflet;
+    await import('leaflet.markercluster');
+
+    this.L = L;
+
+    this.map = L.map(this.mapEl.nativeElement, {
+      zoomControl: false,
+      attributionControl: false
+    }).setView([48.5, 12.0], 4);
+
+    L.control.zoom({ position: 'bottomright' }).addTo(this.map);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18
+    }).addTo(this.map);
+
+    this.cluster = (L as any).markerClusterGroup({
+      showCoverageOnHover: false,
+      spiderfyOnMaxZoom: true,
+      maxClusterRadius: 46
     });
 
-    tiles.addTo(this.map);
+    this.map.addLayer(this.cluster);
 
-    const marker = L.marker([this.lat, this.lon]).addTo(this.map);
-    
-    marker.bindPopup(`<b>${this.siteName}</b>`).openPopup();
+    this.initDone = true;
 
-    setTimeout(() => this.map.invalidateSize(), 100);
+    // importante: en layouts con cards, esto evita el “blanco”
+    queueMicrotask(() => {
+      if (this.map) this.map.invalidateSize();
+    });
+    setTimeout(() => {
+      if (this.map) this.map.invalidateSize();
+    }, 80);
+  }
+
+  private toNumber(v: any): number {
+    if (typeof v === 'number') return v;
+    if (typeof v === 'string') {
+      const parsed = parseFloat(v.replace(',', '.'));
+      return Number.isFinite(parsed) ? parsed : NaN;
     }
+    return NaN;
+  }
+
+  private escapeHtml(input: string): string {
+    return (input ?? '')
+      .toString()
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#039;');
+  }
+
+  private render(): void {
+    if (!this.map || !this.cluster || !this.L) return;
+
+    const L = this.L;
+
+    this.cluster.clearLayers();
+
+    const bounds: any[] = [];
+
+    for (const s of this.sites ?? []) {
+      const lat = this.toNumber((s as any).latitude);
+      const lon = this.toNumber((s as any).longitude);
+      if (!Number.isFinite(lat) || !Number.isFinite(lon)) continue;
+
+      const siteId = (s as any).siteId;
+      const title = (s.siteName ?? 'Unnamed site').toString();
+
+      const municipality = ((s as any).municipality ?? '').toString().trim();
+      const region = ((s as any).region ?? '').toString().trim();
+      const country = ((s as any).country ?? '').toString().trim();
+
+      const safeTitle = this.escapeHtml(title);
+      const safeCountry = this.escapeHtml(country);
+      const safeMunicipality = this.escapeHtml(municipality);
+      const safeRegion = this.escapeHtml(region);
+
+      const locationLine = [safeMunicipality, safeRegion].filter(Boolean).join(' · ');
+
+      const marker = L.marker([lat, lon], {
+        icon: L.divIcon({
+          className: 'ph-badge-marker',
+          html:
+            '<span class="ph-badge-marker__ring">' +
+            '<span class="ph-badge-marker__icon ms">location_on</span>' +
+            '</span>',
+          iconSize: [34, 34],
+          iconAnchor: [17, 17],
+          popupAnchor: [0, -16]
+        })
+      });
+
+      const popupHtml = `
+        <div class="ph-pop">
+          <div class="ph-pop__head">
+            <div class="ph-pop__title">${safeTitle}</div>
+            ${safeCountry ? `<div class="ph-pop__chip">${safeCountry}</div>` : ''}
+          </div>
+
+          ${locationLine ? `<div class="ph-pop__sub">${locationLine}</div>` : ''}
+
+          <div class="ph-pop__actions">
+            <button class="ph-pop__link" data-action="open" data-id="${siteId ?? ''}">
+              <span class="ms ph-pop__link-ic" aria-hidden="true">open_in_new</span>
+              Open
+            </button>
+
+            <button class="ph-pop__link ph-pop__link--muted" data-action="browse">
+              Browse
+              <span class="ms ph-pop__link-ic" aria-hidden="true">chevron_right</span>
+            </button>
+          </div>
+        </div>
+      `;
+
+      marker.bindPopup(popupHtml, {
+        closeButton: true,
+        className: 'ph-leaflet-popup',
+        autoPanPadding: [18, 18]
+      });
+
+      marker.on('popupopen', (evt: any) => {
+        const el = evt.popup.getElement() as HTMLElement | null;
+        if (!el) return;
+
+        const openBtn = el.querySelector<HTMLButtonElement>('[data-action="open"]');
+        if (openBtn) {
+          openBtn.onclick = () => {
+            const idAttr = openBtn.getAttribute('data-id');
+            const id = idAttr ? Number(idAttr) : NaN;
+
+            if (Number.isFinite(id)) {
+              this.router.navigateByUrl(`/site/${id}`);
+              return;
+            }
+            this.router.navigateByUrl('/sites');
+          };
+        }
+
+        const browseBtn = el.querySelector<HTMLButtonElement>('[data-action="browse"]');
+        if (browseBtn) {
+          browseBtn.onclick = () => this.router.navigateByUrl('/sites');
+        }
+      });
+
+      this.cluster.addLayer(marker);
+      bounds.push([lat, lon]);
+    }
+
+    if (bounds.length) {
+      this.map.fitBounds(bounds, { padding: [26, 26] });
+    } else {
+      this.map.setView([48.5, 12.0], 4);
+    }
+
+    // por si el render ocurre justo tras un cambio de layout
+    setTimeout(() => {
+      if (this.map) this.map.invalidateSize();
+    }, 60);
+  }
 
   ngOnDestroy(): void {
+    if (this.resizeObs) {
+      this.resizeObs.disconnect();
+      this.resizeObs = undefined;
+    }
+
     if (this.map) {
       this.map.remove();
+      this.map = null;
     }
   }
 }

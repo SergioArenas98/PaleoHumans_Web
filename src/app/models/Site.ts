@@ -1,6 +1,6 @@
 export interface Site {
-  id: number;
-  site: string;
+  siteId: number;
+  siteName: string;
   country: string;
   region: string;
   municipality: string;

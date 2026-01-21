@@ -1,24 +1,14 @@
+import { OsteologicalUnit } from './OsteologicalUnit';
 import { Bone } from './Bone';
 
 export interface Specimen {
-  id: number;
-  bone: Bone;
+  specimenId: number;
   specimenName: string;
-  stratigraphicContext: string;
-  upPhase: string;
-  culturalAttribution: string;
-  yearDiscovery: string;
-  preserveIndex: string;
-  burialContext: string;
-  repository: string;
-  datesBpUncal: string;
-  rangeDates: string;
-  datesBpCal: string;
+  datesBpUncal: number;
+  datesRange: number;
   datingTechnique: string;
-  datedMaterial: string;
-  gravesGoods: string;
-  boneProcessing: string;
-  tracesOfOchre: string;
-  contextRemainsReferences: string;
-  chronoculturalReferences: string;
+  datingMaterial: string;
+  repository: string;
+  osteologicalUnits?: OsteologicalUnit[];
+  bones?: Bone[];
 }

@@ -15,5 +15,9 @@ export class BoneService {
   getAllBones(): Observable<Bone[]> {
     return this.http.get<Bone[]>(`${this.baseUrl}/getAll`);
   }
+
+  addBone(bone: Bone): Observable<Bone> {
+    return this.http.post<Bone>(this.baseUrl, bone);
+  }
   
 }

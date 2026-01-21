@@ -16,12 +16,7 @@ export class SpecimenService {
     return this.http.get<Specimen[]>(`${this.baseUrl}/getAll`);
   }
 
-  getSpecimensByIndividualId(individualId: number): Observable<Specimen[]> {
-    return this.http.get<Specimen[]>(`${this.baseUrl}/individual/${individualId}`).pipe(
-      catchError((error) => {
-        return of([]); 
-      })
-    );
+  getSpecimensByUnitId(unitId: number): Observable<Specimen[]> {
+    return this.http.get<Specimen[]>(`${this.baseUrl}/unit/${unitId}`);
   }
-  
 }

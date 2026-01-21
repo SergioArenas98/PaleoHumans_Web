@@ -1,6 +1,8 @@
+import { Specimen } from './Specimen';
+
 export interface Bone {
   boneId: number;
-  bone: string;
+  boneName: string;
   skeletonType: string;
   boneQuantity: string;
   laterality: string;
@@ -12,4 +14,5 @@ export interface Bone {
   phalanxFinger: string;
   ribType: string;
   boneDetails: string;
+  specimens?: Specimen[];
 }
