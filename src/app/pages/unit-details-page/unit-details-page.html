@@ -1,0 +1,96 @@
+<app-header></app-header>
+
+<div class="individual-details-container">
+  <button class="back-btn" (click)="goBack()">← Back</button>
+  
+  @if (isLoading) {
+    <div class="loading-state"><span class="spinner"></span><p>Loading...</p></div>
+  }
+
+  @if (unit) {
+    <div class="individual-content">
+      <h1 class="page-title">
+        @if (unit.individuals && unit.individuals.length === 1) {
+          {{ unit.individuals[0].individualName }}
+        } @else {
+          Osteological Unit #{{ unit.osteologicalUnitId }}
+        }
+      </h1>
+      
+      <p class="location-info">
+        <a [routerLink]="['/site', unit.site.siteId]" class="site-link-subtle">{{ unit.site.siteName }}</a>
+        - {{ unit.site.municipality }}, {{ unit.site.region }}, {{ unit.site.country }}
+      </p>
+
+      <div class="main-layout">
+        <div class="column-left">
+          
+          <section class="info-card">
+            <h2>Demographic Information ({{ unit.individuals?.length || 0 }} Individuals)</h2>
+            
+            <div class="individuals-container">
+              @for (ind of unit.individuals; track ind.individualId) {
+                <div class="individual-sub-section">
+                  <h3 class="ind-name">{{ ind.individualName || 'Unnamed Individual' }}</h3>
+                  <div class="details-grid">
+                    <div><strong>Sex:</strong> <span>{{ ind.sex || 'N/A' }}</span></div>
+                    <div><strong>Age at Death:</strong> <span>{{ ind.ageAtDeath || 'N/A' }}</span></div>
+                    <div><strong>Age Class:</strong> <span>{{ ind.ageClass || 'N/A' }}</span></div>
+                    <div><strong>NMI:</strong> <span>{{ unit.nmi }}</span></div>
+                  </div>
+                  @if (!$last) { <hr class="divider" /> }
+                </div>
+              }
+            </div>
+          </section>
+
+          <section class="specimens-card">
+            <h2>Associated Specimens ({{ specimens.length }})</h2>
+            @if (specimens.length > 0) {
+              <div class="table-container">
+                <table class="specimens-table">
+                  <thead>
+                    <tr>
+                      <th>Bone</th>
+                      <th>Quantity</th>
+                      <th>Dating (BP)</th>
+                      <th>Discovery</th>
+                      <th>Repository</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (specimen of specimens; track specimen.specimenId) {
+                      <tr>
+                        <td>{{ specimen.bones?.[0]?.boneName || 'N/A' }}</td>
+                        <td>{{ specimen.bones?.[0]?.boneQuantity || '1' }}</td>
+                        <td>{{ specimen.datesBpUncal || 'N/A' }}</td>
+                        <td>{{ unit.yearDiscovery || 'N/A' }}</td>
+                        <td>{{ specimen.repository || 'N/A' }}</td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            } @else {
+              <p class="no-data">No specimens registered for this unit.</p>
+            }
+          </section>
+        </div>
+        
+        <div class="column-right">
+          <section class="media-card">
+            <h2>Archaeological Context</h2>
+            <div class="details-grid-full">
+              <div><strong>Stratigraphic Context:</strong> {{ unit.stratigraphicContext }}</div>
+              <div><strong>Cultural Attribution:</strong> {{ unit.culturalAttribution }}</div>
+              <div><strong>Phase:</strong> {{ unit.upPhase }}</div>
+              <div><strong>Grave Goods:</strong> {{ unit.graveGoods }}</div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  }
+</div>
+
+<app-footer></app-footer>

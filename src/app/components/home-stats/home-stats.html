@@ -1,0 +1,19 @@
+<section class="stats" aria-label="Database statistics">
+  <header class="section-head">
+    <h2 class="section-title">Database snapshot</h2>
+    <p class="section-subtitle">Last update: <strong>21/01/2026</strong></p>
+  </header>
+
+  <div class="stats-grid">
+    @for (c of cards; track c.label) {
+      <article class="stat-card">
+        <div class="stat-card__top">
+          <div class="stat-card__label">{{ c.label }}</div>
+          <span class="ms stat-card__icon" aria-hidden="true">{{ c.icon }}</span>
+        </div>
+
+        <div class="stat-card__value">{{ (c.value$ | async) || 0 }}</div>
+      </article>
+    }
+  </div>
+</section>

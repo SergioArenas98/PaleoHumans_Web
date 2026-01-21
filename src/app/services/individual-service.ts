@@ -15,12 +15,8 @@ export class IndividualService {
     return this.http.get<Individual[]>(`${this.baseUrl}/getAll`);
   }
 
-  getIndividualsBySiteId(siteId: number): Observable<Individual[]> {
-    return this.http.get<Individual[]>(`${this.baseUrl}/site/${siteId}`).pipe(
-      catchError((error) => {
-        return of([]);
-      })
-    );
+  addIndividual(individual: Individual): Observable<Individual> {
+    return this.http.post<Individual>(this.baseUrl, individual);
   }
 
   getIndividualById(id: number): Observable<Individual> {
@@ -29,5 +25,9 @@ export class IndividualService {
         throw error;
       })
     );
+  }
+
+  getIndividualsBySiteId(siteId: number): Observable<Individual[]> {
+    return this.http.get<Individual[]>(`${this.baseUrl}/site/${siteId}`);
   }
 }

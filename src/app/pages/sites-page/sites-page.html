@@ -1,79 +1,142 @@
 <app-header></app-header>
 
-<div class="sites-container">
-  
-  <div class="content-header">
-    <h1 class="page-title">Sites</h1>
-    @if (!isLoading) { 
-      <p class="subtitle-text">Browse {{ filteredSites.length }} Upper Paleolithic archaeological sites</p>
-    }
-  </div>
+<div class="sites-page">
+  <div class="sites-shell">
 
-  <div class="filters-bar">
-    <div class="search-input">
-      <input 
-        type="text" 
-        placeholder="Search sites..." 
-        [(ngModel)]="searchTerm"
-        (ngModelChange)="applyFilters()"
-      >
-    </div>
+    <header class="sites-header">
+      <div class="sites-titleblock">
+        <h1 class="sites-title">Sites</h1>
 
-    <select class="filter-select" [(ngModel)]="selectedCountry" (ngModelChange)="applyFilters()">
-      @for (country of countries; track country) {
-        <option [ngValue]="country">{{ country }}</option>
-      }
-    </select>
-  </div>
-
-  <div class="sites-table-wrapper">
-    <table class="data-table">
-      <thead>
-        <tr>
-          <th (click)="sortTable('site')" class="sortable-header">
-            Site {{ getSortIcon('site') }}
-          </th>
-          <th (click)="sortTable('country')" class="sortable-header">
-            Country {{ getSortIcon('country') }}
-          </th>
-          <th (click)="sortTable('location')" class="sortable-header">
-            Location {{ getSortIcon('location') }}
-          </th>
-          <th (click)="sortTable('individualCount')" class="sortable-header">
-            Individuals {{ getSortIcon('individualCount') }}
-          </th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (site of filteredSites; track site.id) {
-          <tr>
-            <td>{{ site.site }}</td>
-            <td>{{ site.country }}</td>
-            <td>{{ site.municipality }}, {{ site.region }}</td>
-            <td>{{ site.individualCount }}</td>
-            <td>
-              <button class="action-btn" (click)="viewDetails(site.id)">
-                View details
-              </button>
-            </td>
-          </tr>
+        @if (!isLoading) {
+          <p class="sites-subtitle">
+            Browse {{ filteredSites.length }} Upper Paleolithic archaeological sites
+          </p>
+        } @else {
+          <p class="sites-subtitle sites-subtitle--muted">Loading sites...</p>
         }
-      </tbody>
-    </table>
+      </div>
+    </header>
+
+    <section class="filters-card" aria-label="Site filters">
+      <div class="filters-row">
+        <div class="field field--search">
+          <label class="field-label" for="siteSearch">Search</label>
+          <div class="field-control">
+            <span class="icon" aria-hidden="true">search</span>
+            <input
+              id="siteSearch"
+              type="text"
+              class="input input--with-icon"
+              placeholder="Search sites..."
+              [(ngModel)]="searchTerm"
+              (ngModelChange)="applyFilters()"
+              autocomplete="off"
+            />
+          </div>
+        </div>
+
+        <div class="field field--select">
+          <label class="field-label" for="countrySelect">Country</label>
+          <div class="field-control">
+            <select
+              id="countrySelect"
+              class="select"
+              [(ngModel)]="selectedCountry"
+              (ngModelChange)="applyFilters()"
+            >
+              @for (country of countries; track country) {
+                <option [ngValue]="country">{{ country }}</option>
+              }
+            </select>
+
+            <span class="icon icon--chev" aria-hidden="true">expand_more</span>
+          </div>
+        </div>
+
+
+        <div class="filters-meta" aria-live="polite">
+          <span class="meta-pill">
+            <span class="meta-label">Results</span>
+            <span class="meta-value">{{ filteredSites.length }}</span>
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <section class="table-card" aria-label="Sites table">
+      <div class="table-card__head">
+        <div class="table-card__head-left">
+          <h2 class="table-card__title">Archaeological Sites</h2>
+          @if (!isLoading) {
+            <p class="table-card__hint">Click a column header to sort. Use "View details" to open the record.</p>
+          }
+        </div>
+      </div>
+
+      <div class="table-wrap" role="region" aria-label="Scrollable table">
+        <table class="sites-table">
+          <thead>
+            <tr>
+              <th (click)="sortTable('site')" class="th th--sortable" scope="col">
+                <span class="th__label">Site</span>
+                <span class="th__sort" aria-hidden="true">{{ getSortIcon('site') }}</span>
+              </th>
+
+              <th (click)="sortTable('country')" class="th th--sortable" scope="col">
+                <span class="th__label">Country</span>
+                <span class="th__sort" aria-hidden="true">{{ getSortIcon('country') }}</span>
+              </th>
+
+              <th (click)="sortTable('location')" class="th th--sortable" scope="col">
+                <span class="th__label">Location</span>
+                <span class="th__sort" aria-hidden="true">{{ getSortIcon('location') }}</span>
+              </th>
+
+              <th (click)="sortTable('individualCount')" class="th th--sortable th--num" scope="col">
+                <span class="th__label">Individuals</span>
+                <span class="th__sort" aria-hidden="true">{{ getSortIcon('individualCount') }}</span>
+              </th>
+
+              <th class="th th--actions" scope="col">
+                <span class="sr-only">Actions</span>
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (site of filteredSites; track site.siteId) {
+              <tr class="tr">
+                <td class="td td--strong">{{ site.siteName }}</td>
+                <td class="td td--muted">{{ site.country }}</td>
+                <td class="td td--muted">{{ site.municipality }}, {{ site.region }}</td>
+                <td class="td td--num">{{ site.individualCount }}</td>
+                <td class="td td--actions">
+                  <button class="link-btn" type="button" (click)="viewDetails(site.siteId)">
+                    View details
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      @if (isLoading) {
+        <div class="table-state" role="status" aria-live="polite">
+          <span class="spinner" aria-hidden="true"></span>
+          <p class="table-state__text">Loading...</p>
+        </div>
+      }
+
+      @if (!isLoading && filteredSites.length === 0) {
+        <div class="empty-state" role="status" aria-live="polite">
+          <h3 class="empty-state__title">No results</h3>
+          <p class="empty-state__text">No sites found matching your criteria.</p>
+        </div>
+      }
+    </section>
+
   </div>
-
-  @if (isLoading) {
-    <div class="loading-state">
-      <span class="spinner"></span>
-      <p>Loading...</p>
-    </div>
-  }
-
-  @if (!isLoading && filteredSites.length === 0) {
-    <p class="no-results">No sites found matching your criteria.</p>
-  }
-
 </div>
 
 <app-footer></app-footer>

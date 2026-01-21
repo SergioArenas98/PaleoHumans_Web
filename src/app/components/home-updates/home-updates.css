@@ -1,0 +1,69 @@
+.updates-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 2px 2px 8px;
+}
+
+.updates-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+}
+
+.updates-subtitle {
+  margin: 0;
+  font-size: 13px;
+  color: rgba(57, 86, 96, 0.65);
+}
+
+.updates-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.u-card {
+  display: flex;
+  gap: 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(57, 86, 96, 0.14);
+  background: #fff;
+  padding: 14px 14px;
+}
+
+.u-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid rgba(57, 86, 96, 0.14);
+  background: rgba(57, 86, 96, 0.06);
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+}
+
+.u-icon .ms {
+  font-size: 20px;
+  color: rgba(57, 86, 96, 0.92);
+}
+
+.u-title {
+  font-weight: 950;
+  letter-spacing: -0.01em;
+}
+
+.u-detail {
+  margin-top: 3px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: rgba(57, 86, 96, 0.62);
+}
+
+@media (max-width: 980px) {
+  .updates-grid {
+    grid-template-columns: 1fr;
+  }
+}

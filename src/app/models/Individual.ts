@@ -1,11 +1,11 @@
-import { Site } from "./Site";
+import { Site } from './Site';
+import { OsteologicalUnit } from './OsteologicalUnit';
 
 export interface Individual {
   individualId: number;
-  site: Site;
   individualName: string;
-  nmi: number;
   ageAtDeath: string;
   ageClass: string;
   sex: string;
+  osteologicalUnits?: OsteologicalUnit[];
 }

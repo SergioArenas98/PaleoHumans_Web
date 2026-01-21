@@ -1,0 +1,19 @@
+<section class="updates" aria-label="Highlights">
+  <header class="updates-head">
+    <h2 class="updates-title">Highlights</h2>
+  </header>
+
+  <div class="updates-grid">
+    @for (i of items; track i.title) {
+      <article class="u-card">
+        <div class="u-icon">
+          <span class="ms" aria-hidden="true">{{ i.icon }}</span>
+        </div>
+        <div class="u-body">
+          <div class="u-title">{{ i.title }}</div>
+          <div class="u-detail">{{ i.detail }}</div>
+        </div>
+      </article>
+    }
+  </div>
+</section>

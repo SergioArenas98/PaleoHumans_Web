@@ -1,30 +1,25 @@
 <app-header></app-header>
 
 <div class="site-details-container">
-  
-  <button class="back-btn" (click)="goToSites()">
-    ← Back
-  </button>
-  
+  <button class="back-btn" (click)="goToSites()">← Back</button>
+
   @if (isLoading) {
     <div class="loading-state">
       <span class="spinner"></span>
       <p>Loading...</p>
     </div>
   }
-  
+
   @if (errorMessage) {
     <div class="error-message">{{ errorMessage }}</div>
   }
 
   @if (site) {
     <div class="site-content">
-      
-      <h1 class="page-title">{{ site.site }}</h1>
+      <h1 class="page-title">{{ site.siteName }}</h1>
       <p class="location-info">{{ site.municipality }}, {{ site.region }}, {{ site.country }}</p>
 
       <div class="main-layout">
-        
         <div class="column-left">
           
           <section class="info-card">
@@ -33,33 +28,63 @@
               <div><strong>Country: </strong> <span>{{ site.country }}</span></div>
               <div><strong>Region: </strong> <span>{{ site.region }}</span></div>
               <div><strong>Municipality: </strong> <span>{{ site.municipality }}</span></div>
-              <div><strong>Latitud: </strong> <span>{{ site.latitude }}</span></div>
-              <div><strong>Longitud: </strong> <span>{{ site.longitude }}</span></div>
+              <div><strong>Latitude: </strong> <span>{{ site.latitude }}</span></div>
+              <div><strong>Longitude: </strong> <span>{{ site.longitude }}</span></div>
             </div>
-            </section>
-          
-            <section class="individuals-card">
-            <h2>Associated Individuals ({{ individuals.length }})</h2>
-            
-            <app-individual-table [individuals]="individuals"></app-individual-table>
-
           </section>
           
+          @for (type of unitTypes; track type) {
+            @if (groupedUnits[type] && groupedUnits[type]!.length > 0) {
+              <section class="individuals-card">
+                
+                <h2>{{ getUnitTypeLabel(type) }} ({{ groupedUnits[type]?.length }})</h2>
+
+                <table class="paleo-table">
+                  <thead>
+                    <tr>
+                      @if (type === 'individual') {
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Sex</th>
+                      }
+                      <th>Culture</th>
+                      <th>Context</th>
+                      @if (type !== 'individual') {
+                        <th>MNI</th>
+                      }
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (unit of groupedUnits[type]; track unit.osteologicalUnitId) {
+                      <tr [routerLink]="['/unit', unit.osteologicalUnitId]" class="clickable-row">
+                        @if (type === 'individual') {
+                          <td class="text-black"><strong>{{ unit.individuals?.[0]?.individualName || '—' }}</strong></td>
+                          <td class="text-black">{{ unit.individuals?.[0]?.ageAtDeath || '—' }}</td>
+                          <td class="text-black">{{ unit.individuals?.[0]?.sex || '—' }}</td>
+                        }
+                        <td class="text-black">{{ unit.culturalAttribution || '—' }}</td>
+                        <td class="text-black">{{ unit.stratigraphicContext || '—' }}</td>
+                        @if (type !== 'individual') {
+                          <td class="text-black">{{ unit.mniStatistical }}</td>
+                        }
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </section>
+            }
+          }
         </div>
-        
+
         <div class="column-right">
           <section class="map-card">
             <h2>Location</h2>
-            
             <div class="map-container-wrapper">
-              <app-map 
-                [latitude]="site.latitude"
-                [longitude]="site.longitude"
-                [siteName]="site.site">
-              </app-map>
             </div>
-            </section>
+          </section>
         </div>
+
       </div>
     </div>
   }

@@ -1,16 +1,78 @@
-<header class="top-nav">
-  <div class="brand">
-    <img src="logo.png" alt="PaleoHumans logo" class="brand-logo">
-    <span class="brand-text">PaleoHumans</span>
+<header class="ph-nav" [class.ph-nav--open]="isMobileMenuOpen">
+  <div class="ph-nav__inner">
+    <a class="ph-brand" routerLink="/" (click)="closeMobileMenu()">
+      <img src="logo.png" alt="PaleoHumans logo" class="brand-logo">
+
+      <span class="ph-brand__text">
+        <span class="ph-brand__title">PaleoHumans</span>
+        <span class="ph-brand__subtitle">Upper Paleolithic Database</span>
+      </span>
+    </a>
+
+    <nav class="ph-links" aria-label="Primary navigation">
+      @for (item of navItems; track item.path) {
+        <a
+          class="ph-link"
+          [routerLink]="item.path"
+          routerLinkActive="is-active"
+          [routerLinkActiveOptions]="{ exact: !!item.exact }"
+        >
+          @if (item.icon) {
+            <span class="ms ph-link__icon" aria-hidden="true">{{ item.icon }}</span>
+          }
+          <span class="ph-link__label">{{ item.label }}</span>
+        </a>
+      }
+    </nav>
+
+    <div class="ph-actions">
+      <button class="ph-action-btn" type="button">
+        <span class="ms" aria-hidden="true">search</span>
+        <span class="ph-action-btn__label">Search</span>
+      </button>
+
+      <button class="ph-burger" type="button" (click)="toggleMobileMenu()" aria-label="Open menu">
+        <span class="ms" aria-hidden="true">{{ isMobileMenuOpen ? 'close' : 'menu' }}</span>
+      </button>
+    </div>
   </div>
 
-  <nav>
-    <a routerLink="/">Home</a>
-    <a routerLink="/map">Map Explorer</a>
-    <a routerLink="/sites">Sites</a> 
-    <a routerLink="/specimens">Individuals</a> 
-    <a routerLink="/mortuary">Mortuary Practices</a>
-    <a routerLink="/timeline">Timeline</a>
-    <button class="admin-btn">Admin Login</button>
-  </nav>
+  <!-- Mobile drawer -->
+  <div class="ph-drawer" role="dialog" aria-label="Mobile navigation">
+    <div class="ph-drawer__panel">
+      <div class="ph-drawer__brand">
+        <span class="ph-mark" aria-hidden="true">PH</span>
+        <div class="ph-drawer__brand-text">
+          <div class="ph-drawer__title">PaleoHumans</div>
+          <div class="ph-drawer__subtitle">Upper Paleolithic Database</div>
+        </div>
+      </div>
+
+      <nav class="ph-drawer__links" aria-label="Mobile navigation">
+        @for (item of navItems; track item.path) {
+          <a
+            class="ph-drawer__link"
+            [routerLink]="item.path"
+            routerLinkActive="is-active"
+            [routerLinkActiveOptions]="{ exact: !!item.exact }"
+            (click)="closeMobileMenu()"
+          >
+            @if (item.icon) {
+              <span class="ms ph-drawer__icon" aria-hidden="true">{{ item.icon }}</span>
+            }
+            <span>{{ item.label }}</span>
+          </a>
+        }
+      </nav>
+
+      <div class="ph-drawer__footer">
+        <button class="ph-action-btn ph-action-btn--block" type="button">
+          <span class="ms" aria-hidden="true">search</span>
+          <span class="ph-action-btn__label">Search Database</span>
+        </button>
+      </div>
+    </div>
+
+    <button class="ph-backdrop" type="button" (click)="closeMobileMenu()" aria-label="Close menu"></button>
+  </div>
 </header>

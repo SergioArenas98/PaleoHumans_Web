@@ -1,0 +1,55 @@
+<section class="info" aria-label="Methodology and citation">
+  <div class="info-grid">
+    <article class="panel">
+      <h3 class="panel-title">
+        <span class="ms" aria-hidden="true">description</span>
+        Methodological note
+      </h3>
+
+      <div class="panel-body">
+        <p>
+          This database uses standardized osteometric and morphological protocols. Data entry is curated to keep
+          consistency across varying taphonomic conditions.
+        </p>
+
+        <p>
+          Radiocarbon dates (C14) can be exported with calibration curves applied. Genomic metadata is provided where
+          available, with links to external repositories.
+        </p>
+
+        <ul class="panel-list">
+          <li>Standardized taxonomic nomenclature</li>
+          <li>GPS-verified site coordinates</li>
+          <li>Bibliographic cross-referencing for all entries</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="panel panel--dark">
+      <h3 class="panel-title panel-title--dark">
+        <span class="ms" aria-hidden="true">format_quote</span>
+        How to cite
+      </h3>
+
+      <p class="panel-lead">
+        To support the researchers behind this data, please use the following citation in publications:
+      </p>
+
+      <div class="citation" role="group" aria-label="Citation block">
+        {{ citation }}
+      </div>
+
+      <div class="panel-actions">
+        <button class="linkish" type="button" (click)="copyCitation()">
+          <span class="ms" aria-hidden="true">content_copy</span>
+          {{ copied ? 'Copied' : 'Copy citation' }}
+        </button>
+
+        <button class="linkish" type="button" disabled>
+          <span class="ms" aria-hidden="true">download</span>
+          Export RIS
+        </button>
+      </div>
+    </article>
+  </div>
+</section>

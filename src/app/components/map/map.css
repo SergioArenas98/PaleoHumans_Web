@@ -1,5 +1,159 @@
-.map-container {
+:host {
+  display: block;
   height: 100%;
   width: 100%;
-  border-radius: 4px;
+}
+
+.map-el {
+  height: 100%;
+  width: 100%;
+}
+
+/* Marker option B */
+:global(.ph-badge-marker) {
+  background: transparent;
+  border: none;
+}
+
+:global(.ph-badge-marker__ring) {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(57, 86, 96, 0.22);
+  box-shadow: 0 14px 30px rgba(12, 24, 28, 0.18);
+}
+
+:global(.ph-badge-marker__icon) {
+  font-family: "Material Symbols Outlined";
+  font-size: 18px;
+  color: rgba(57, 86, 96, 0.92);
+}
+
+/* Popup (mismo estilo que el preview del home) */
+:global(.ph-leaflet-popup .leaflet-popup-content-wrapper) {
+  border-radius: 16px;
+  border: 1px solid rgba(57, 86, 96, 0.14);
+  box-shadow: 0 18px 42px rgba(12, 24, 28, 0.16);
+  background: rgba(255, 255, 255, 0.98);
+}
+
+:global(.ph-leaflet-popup .leaflet-popup-tip) {
+  display: none;
+}
+
+:global(.ph-leaflet-popup .leaflet-popup-content) {
+  margin: 12px;
+  font-family: inherit;
+}
+
+:global(.ph-pop) {
+  min-width: 260px;
+  font-family: inherit;
+}
+
+:global(.ph-pop__head) {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+:global(.ph-pop__title) {
+  font-weight: 950;
+  font-size: 18px;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: rgba(42, 42, 42, 0.94);
+  max-width: 24ch;
+}
+
+:global(.ph-pop__chip) {
+  flex: 0 0 auto;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(57, 86, 96, 0.82);
+  background: rgba(57, 86, 96, 0.08);
+  border: 1px solid rgba(57, 86, 96, 0.14);
+  padding: 6px 8px;
+  border-radius: 999px;
+}
+
+:global(.ph-pop__sub) {
+  margin-top: 8px;
+  font-size: 12px;
+  color: rgba(42, 42, 42, 0.62);
+}
+
+:global(.ph-pop__actions) {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(57, 86, 96, 0.10);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+:global(.ph-pop__link) {
+  appearance: none;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  font-size: 11px;
+  font-weight: 950;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+
+  color: rgba(57, 86, 96, 0.94);
+  text-decoration: underline;
+  text-decoration-color: rgba(57, 86, 96, 0.28);
+  text-underline-offset: 3px;
+}
+
+:global(.ph-pop__link:hover) {
+  text-decoration-color: rgba(57, 86, 96, 0.60);
+}
+
+:global(.ph-pop__link--muted) {
+  color: rgba(42, 42, 42, 0.72);
+  text-decoration-color: rgba(42, 42, 42, 0.22);
+}
+
+:global(.ph-pop__link--muted:hover) {
+  color: rgba(42, 42, 42, 0.86);
+  text-decoration-color: rgba(42, 42, 42, 0.40);
+}
+
+:global(.ph-pop__link-ic) {
+  font-family: "Material Symbols Outlined";
+  font-size: 16px;
+  line-height: 1;
+}
+
+/* Clusters en tu paleta */
+:global(.marker-cluster-small),
+:global(.marker-cluster-medium),
+:global(.marker-cluster-large) {
+  background-color: rgba(57, 86, 96, 0.18) !important;
+}
+
+:global(.marker-cluster-small div),
+:global(.marker-cluster-medium div),
+:global(.marker-cluster-large div) {
+  background-color: rgba(57, 86, 96, 0.86) !important;
+  color: #fff !important;
+  font-weight: 900;
+  border-radius: 999px !important;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 10px 22px rgba(12, 24, 28, 0.18);
 }

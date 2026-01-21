@@ -23,5 +23,9 @@ export class SiteService {
       })
     );
   }
+
+  addSite(site: Site): Observable<Site> {
+    return this.http.post<Site>(this.baseUrl, site);
+  }
   
 }
