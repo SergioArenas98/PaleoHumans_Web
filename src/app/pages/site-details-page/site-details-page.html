@@ -1,93 +1,352 @@
 <app-header></app-header>
 
-<div class="site-details-container">
-  <button class="back-btn" (click)="goToSites()">← Back</button>
+<main class="site-details-page">
+  <div class="site-details-shell">
+    @if (isLoading) {
+      <section class="state" aria-label="Loading">
+        <div class="state__card">
+          <span class="spinner" aria-hidden="true"></span>
+          <span>Loading site details.</span>
+        </div>
+      </section>
+    }
 
-  @if (isLoading) {
-    <div class="loading-state">
-      <span class="spinner"></span>
-      <p>Loading...</p>
-    </div>
-  }
+    @if (!isLoading && errorMessage) {
+      <section class="state" aria-label="Error">
+        <div class="state__card state__card--error">
+          <span class="ms" aria-hidden="true">error</span>
+          <span>{{ errorMessage }}</span>
+        </div>
+      </section>
+    }
 
-  @if (errorMessage) {
-    <div class="error-message">{{ errorMessage }}</div>
-  }
-
-  @if (site) {
-    <div class="site-content">
-      <h1 class="page-title">{{ site.siteName }}</h1>
-      <p class="location-info">{{ site.municipality }}, {{ site.region }}, {{ site.country }}</p>
-
-      <div class="main-layout">
-        <div class="column-left">
-          
-          <section class="info-card">
-            <h2>Site Overview</h2>
-            <div class="details-grid">
-              <div><strong>Country: </strong> <span>{{ site.country }}</span></div>
-              <div><strong>Region: </strong> <span>{{ site.region }}</span></div>
-              <div><strong>Municipality: </strong> <span>{{ site.municipality }}</span></div>
-              <div><strong>Latitude: </strong> <span>{{ site.latitude }}</span></div>
-              <div><strong>Longitude: </strong> <span>{{ site.longitude }}</span></div>
-            </div>
-          </section>
-          
-          @for (type of unitTypes; track type) {
-            @if (groupedUnits[type] && groupedUnits[type]!.length > 0) {
-              <section class="individuals-card">
-                
-                <h2>{{ getUnitTypeLabel(type) }} ({{ groupedUnits[type]?.length }})</h2>
-
-                <table class="paleo-table">
-                  <thead>
-                    <tr>
-                      @if (type === 'individual') {
-                        <th>Name</th>
-                        <th>Age</th>
-                        <th>Sex</th>
-                      }
-                      <th>Culture</th>
-                      <th>Context</th>
-                      @if (type !== 'individual') {
-                        <th>MNI</th>
-                      }
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    @for (unit of groupedUnits[type]; track unit.osteologicalUnitId) {
-                      <tr [routerLink]="['/unit', unit.osteologicalUnitId]" class="clickable-row">
-                        @if (type === 'individual') {
-                          <td class="text-black"><strong>{{ unit.individuals?.[0]?.individualName || '—' }}</strong></td>
-                          <td class="text-black">{{ unit.individuals?.[0]?.ageAtDeath || '—' }}</td>
-                          <td class="text-black">{{ unit.individuals?.[0]?.sex || '—' }}</td>
-                        }
-                        <td class="text-black">{{ unit.culturalAttribution || '—' }}</td>
-                        <td class="text-black">{{ unit.stratigraphicContext || '—' }}</td>
-                        @if (type !== 'individual') {
-                          <td class="text-black">{{ unit.mniStatistical }}</td>
-                        }
-                      </tr>
-                    }
-                  </tbody>
-                </table>
-              </section>
+    @if (!isLoading && site) {
+      <header class="page-head">
+        <div class="page-head__txt">
+          <h1 class="page-title">{{ site.siteName }}</h1>
+          <p class="page-subtitle">
+            {{ site.region }}, {{ site.country }}
+            @if (site.latitude != null && site.longitude != null) {
+              <span class="dot" aria-hidden="true">·</span>
+              {{ site.latitude }}° , {{ site.longitude }}°
             }
-          }
+          </p>
         </div>
 
-        <div class="column-right">
-          <section class="map-card">
-            <h2>Location</h2>
-            <div class="map-container-wrapper">
-            </div>
-          </section>
-        </div>
+        <div class="page-head__actions">
+<div class="export-container">
+  <button class="btn btn--ghost" type="button" (click)="showExportMenu = !showExportMenu">
+    <span class="ms" aria-hidden="true">download</span>
+    Export
+    <span class="ms">{{ showExportMenu ? 'expand_less' : 'expand_more' }}</span>
+  </button>
 
-      </div>
+  @if (showExportMenu) {
+    <div class="export-menu">
+      <button (click)="exportAs('csv')">
+        <span class="ms">table_view</span> CSV (Excel/Sheets)
+      </button>
+      <button (click)="exportAs('json')">
+        <span class="ms">code</span> JSON (Data Raw)
+      </button>
+      <button (click)="exportAs('geojson')">
+        <span class="ms">public</span> GeoJSON (GIS/Maps)
+      </button>
     </div>
   }
 </div>
+
+          <button class="btn btn--ghost" type="button" (click)="shareSite()">
+            <span class="ms" aria-hidden="true">share</span>
+            Share
+          </button>
+        </div>
+      </header>
+
+      <div class="layout">
+        <aside class="side" aria-label="Site navigator">
+          <div class="side__sticky">
+            <p class="side__kicker">Site Sections</p>
+
+            <a
+              class="side__link"
+              href="#overview"
+              [class.side__link--active]="activeSection === 'overview'"
+              (click)="$event.preventDefault(); scrollTo('overview')"
+            >
+              <span class="ms" aria-hidden="true">explore</span>
+              Overview
+            </a>
+            
+            <a
+              class="side__link"
+              href="#stats"
+              [class.side__link--active]="activeSection === 'stats'"
+              (click)="$event.preventDefault(); scrollTo('stats')"
+            >
+              <span class="ms" aria-hidden="true">analytics</span>
+              Statistics
+            </a>
+
+            <a
+              class="side__link"
+              href="#osteology"
+              [class.side__link--active]="activeSection === 'osteology'"
+              (click)="$event.preventDefault(); scrollTo('osteology')"
+            >
+              <span class="ms" aria-hidden="true">skeleton</span>
+              Osteological Units
+            </a>
+
+            <a
+              class="side__link"
+              href="#bibliography"
+              [class.side__link--active]="activeSection === 'bibliography'"
+              (click)="$event.preventDefault(); scrollTo('bibliography')"
+            >
+              <span class="ms" aria-hidden="true">menu_book</span>
+              Bibliography
+            </a>
+
+            <a
+              class="side__link"
+              href="#media"
+              [class.side__link--active]="activeSection === 'media'"
+              (click)="$event.preventDefault(); scrollTo('media')"
+            >
+              <span class="ms" aria-hidden="true">image</span>
+              Media
+            </a>
+          </div>
+        </aside>
+
+        <div class="content">
+          <!-- OVERVIEW -->
+          <section id="overview" class="section section--grid section--first" aria-label="Overview">
+            <div class="section__col">
+              <h2 class="section-title">
+                <span class="section-title__bar" aria-hidden="true"></span>
+                Site Overview
+              </h2>
+
+              <div class="card">
+                <div class="kv">
+                  <div class="kv__item">
+                    <div class="kv__label">Country</div>
+                    <div class="kv__value">{{ site.country || '—' }}</div>
+                  </div>
+
+                  <div class="kv__item">
+                    <div class="kv__label">Region</div>
+                    <div class="kv__value">{{ site.region || '—' }}</div>
+                  </div>
+
+                  <div class="kv__item">
+                    <div class="kv__label">Municipality</div>
+                    <div class="kv__value">{{ site.municipality || '—' }}</div>
+                  </div>
+
+                  <div class="kv__item">
+                    <div class="kv__label">Coordinates</div>
+                    <div class="kv__value">
+                      @if (site.latitude != null && site.longitude != null) {
+                        {{ site.latitude }}, {{ site.longitude }}
+                      } @else {
+                        —
+                      }
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="section__col">
+              <div class="card card--map">
+                <div class="card__head">
+                  <h3 class="card__title">Location</h3>
+                  <a class="link" routerLink="/map"
+                    >Open full map <span class="ms" aria-hidden="true">chevron_right</span></a
+                  >
+                </div>
+
+                <div class="details-map" aria-label="Site map">
+                  <app-site-location-map [site]="site"></app-site-location-map>
+
+                  @if (site.latitude == null || site.longitude == null) {
+                    <div class="details-map__overlay">
+                      <span class="ms" aria-hidden="true">info</span>
+                      <span>Missing coordinates for this site. Map shows a default view.</span>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- STATS -->
+          <section id="stats" class="section" aria-label="Statistics">
+            <h2 class="section-title">
+              <span class="section-title__bar" aria-hidden="true"></span>
+              Site Statistics
+            </h2>
+
+            <div class="stats">
+              <div class="stat">
+                <div class="stat__label">Total units</div>
+                <div class="stat__value">{{ totalUnits }}</div>
+                <div class="stat__hint">All osteological units linked to this site.</div>
+              </div>
+
+              <div class="stat">
+                <div class="stat__label">Individuals</div>
+                <div class="stat__value">{{ individualsCount }}</div>
+                <div class="stat__hint">Counted from INDIVIDUAL unit type.</div>
+              </div>
+
+              <div class="stat">
+                <div class="stat__label">Unit types</div>
+                <div class="stat__value">{{ unitTypeCount }}</div>
+                <div class="stat__hint">How many categories exist here.</div>
+              </div>
+
+              <div class="stat">
+                <div class="stat__label">MNI</div>
+                <div class="stat__value">{{ maxMni }}</div>
+                <div class="stat__hint">Reported MNI across groups.</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- OSTEOLOGY -->
+          <section id="osteology" class="section" aria-label="Osteological units">
+            <div class="section-head">
+              <h2 class="section-title">
+                <span class="section-title__bar" aria-hidden="true"></span>
+                Osteological Units
+              </h2>
+            </div>
+
+            @for (type of unitTypes; track type) {
+              @if (groupedUnits[type] && groupedUnits[type]!.length > 0) {
+                <article class="card card--table" aria-label="Units group">
+                  <div class="card__head">
+                    <h3 class="card__title">
+                      {{ getUnitTypeLabel(type) }}
+                      <span class="badge">{{ groupedUnits[type]?.length }}</span>
+                    </h3>
+                  </div>
+
+                  <div class="table-wrap" role="region" aria-label="Scrollable table">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          @if (type === 'individual') {
+                            <th scope="col">Name</th>
+                            <th scope="col">Age</th>
+                            <th scope="col">Sex</th>
+                          }
+                          <th scope="col">Culture</th>
+                          <th scope="col">Context</th>
+                          @if (type !== 'individual') {
+                            <th scope="col" class="num">MNI</th>
+                          }
+                          <th scope="col" class="actions">
+                            <span class="sr-only"></span>
+                          </th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        @for (unit of groupedUnits[type]; track unit.osteologicalUnitId) {
+                          <tr class="tr" (click)="goToUnit(unit.osteologicalUnitId)">
+                            @if (type === 'individual') {
+                              <td class="strong">
+                                {{ unit.individuals?.[0]?.individualName || '—' }}
+                              </td>
+                              <td class="muted">{{ unit.individuals?.[0]?.ageAtDeath || '—' }}</td>
+                              <td class="muted">{{ unit.individuals?.[0]?.sex || '—' }}</td>
+                            }
+                            <td class="muted">{{ unit.culturalAttribution || '—' }}</td>
+                            <td class="muted">{{ unit.stratigraphicContext || '—' }}</td>
+                            @if (type !== 'individual') {
+                              <td class="num">{{ unit.mniStatistical || '—' }}</td>
+                            }
+                            <td class="actions">
+                              <button
+                                class="link-btn"
+                                type="button"
+                                (click)="
+                                  $event.stopPropagation(); goToUnit(unit.osteologicalUnitId)
+                                "
+                              >
+                                View
+                                <span class="ms" aria-hidden="true">chevron_right</span>
+                              </button>
+                            </td>
+                          </tr>
+                        }
+                      </tbody>
+                    </table>
+                  </div>
+                </article>
+              }
+            }
+
+            @if (totalUnits === 0) {
+              <div class="empty">
+                <div class="empty__title">No units</div>
+                <div class="empty__text">
+                  There are no osteological units linked to this site yet.
+                </div>
+              </div>
+            }
+          </section>
+
+          <!-- BIBLIOGRAPHY -->
+          <section id="bibliography" class="section" aria-label="Bibliography">
+            <h2 class="section-title">
+              <span class="section-title__bar" aria-hidden="true"></span>
+              Bibliography
+            </h2>
+
+            <div class="card">
+              <div class="placeholder">
+                <span class="ms" aria-hidden="true">menu_book</span>
+                <div>
+                  <div class="placeholder__title">Pending integration</div>
+                  <div class="placeholder__text">
+                    When your API exposes publications, we can render them here as a compact list
+                    with DOI/links and tags.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- MEDIA -->
+          <section id="media" class="section" aria-label="Media">
+            <h2 class="section-title">
+              <span class="section-title__bar" aria-hidden="true"></span>
+              Media
+            </h2>
+
+            <div class="card">
+              <div class="placeholder">
+                <span class="ms" aria-hidden="true">image</span>
+                <div>
+                  <div class="placeholder__title">Ready for images</div>
+                  <div class="placeholder__text">
+                    Here we can add a gallery (thumbnails + fullscreen viewer) keeping the same card
+                    style as the rest of the site.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    }
+  </div>
+</main>
 
 <app-footer></app-footer>

@@ -151,36 +151,21 @@ export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
 
       const marker = L.marker([lat, lon], {
         icon: L.divIcon({
-          className: 'ph-badge-marker',
-          html:
-            '<span class="ph-badge-marker__ring">' +
-            '<span class="ph-badge-marker__icon ms">location_on</span>' +
-            '</span>',
-          iconSize: [34, 34],
-          iconAnchor: [17, 17],
-          popupAnchor: [0, -16]
+          className: 'ph-pin',
+          html: '<span class="ph-pin__shape"></span><span class="ph-pin__core"></span>',
+          iconSize: [26, 34],
+          iconAnchor: [13, 34],
+          popupAnchor: [0, -30]
         })
       });
 
       const popupHtml = `
-        <div class="ph-pop">
-          <div class="ph-pop__head">
-            <div class="ph-pop__title">${safeTitle}</div>
-            ${safeCountry ? `<div class="ph-pop__chip">${safeCountry}</div>` : ''}
-          </div>
-
-          ${locationLine ? `<div class="ph-pop__sub">${locationLine}</div>` : ''}
-
-          <div class="ph-pop__actions">
-            <button class="ph-pop__link" data-action="open" data-id="${siteId ?? ''}">
-              <span class="ms ph-pop__link-ic" aria-hidden="true">open_in_new</span>
-              Open
-            </button>
-
-            <button class="ph-pop__link ph-pop__link--muted" data-action="browse">
-              Browse
-              <span class="ms ph-pop__link-ic" aria-hidden="true">chevron_right</span>
-            </button>
+        <div class="ph-popup">
+          <div class="ph-popup__title">${safeTitle}</div>
+          ${safeCountry ? `<div class="ph-popup__meta">${safeCountry}</div>` : ''}
+          <div class="ph-popup__actions">
+            <button class="ph-popup__btn" data-action="open">Open site</button>
+            <button class="ph-popup__btn ph-popup__btn--ghost" data-action="browse">Browse</button>
           </div>
         </div>
       `;

@@ -5,12 +5,15 @@
 }
 
 .map-page {
-  padding: 26px 22px 54px;
+  min-height: 80vh;
+  background: var(--ph-bg, #f4f3f0);
+  padding: 0; /* el padding lo lleva el shell, como en sites */
 }
 
 .map-shell {
   max-width: 1600px;
   margin: 0 auto;
+  padding: 40px 40px;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -20,22 +23,24 @@
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 14px;
+  gap: 24px;
+  margin-bottom: 18px;
 }
 
 .map-title {
   margin: 0;
-  font-size: 38px;
-  font-weight: 950;
+  font-size: 44px;
+  line-height: 1.05;
   letter-spacing: -0.02em;
-  color: rgba(42, 42, 42, 0.94);
+  font-weight: 800;
+  color: var(--ph-primary);
 }
 
 .map-subtitle {
-  margin: 8px 0 0;
-  font-size: 14px;
+  margin: 10px 0 0;
+  font-size: 16px;
   color: rgba(42, 42, 42, 0.62);
-  max-width: 70ch;
+  max-width: 72ch;
 }
 
 .pill {

@@ -17,8 +17,8 @@
 }
 
 .sites-shell {
-  padding: 40px 70px;
-  max-width: 1280px;
+  padding: 40px 40px;
+  max-width: 1600px;
   margin: 0 auto;
 }
 
@@ -213,7 +213,7 @@
 .sites-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 780px;
+  min-width: 1000px;
 }
 
 .sites-table thead th {

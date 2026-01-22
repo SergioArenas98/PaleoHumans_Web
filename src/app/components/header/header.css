@@ -97,6 +97,11 @@
   min-width: 0;
 }
 
+.ph-link__label {
+  font-weight: 750;
+  font-size: 13.5px; /* <--- Añade o cambia esta línea */
+}
+
 .ph-link {
   display: inline-flex;
   align-items: center;
@@ -125,7 +130,7 @@
 }
 
 .ph-link__icon {
-  font-size: 18px;
+  font-size: 20px;
   color: rgba(57, 86, 96, 0.75);
 }
 

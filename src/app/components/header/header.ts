@@ -19,7 +19,7 @@ export class HeaderComponent {
   isMobileMenuOpen = false;
 
   navItems: NavItem[] = [
-    { path: '/', label: 'Home', exact: true },
+    { path: '/', label: 'Home', icon: 'home', exact: true },
     { path: '/sites', label: 'Sites', icon: 'location_on' },
     { path: '/map', label: 'Map', icon: 'map' },
   ];
