@@ -239,18 +239,6 @@
   font-weight: 800;
 }
 
-/* Barra lateral indicadora para el activo */
-.side__link--active::before {
-  content: "";
-  position: absolute;
-  left: 0px; /* Pegado al borde */
-  top: 10px;
-  bottom: 10px;
-  width: 4px;
-  border-radius: 0 4px 4px 0;
-  background: var(--ph-accent, #f9f506);
-}
-
 .side__link .ms { font-size: 18px; opacity: 0.9; }
 .side__link:hover {
   background: rgba(0,0,0,0.04);
@@ -263,17 +251,6 @@
 .side__link--active {
   background: rgba(249, 245, 6, 0.35);
   color: rgba(0,0,0,0.88);
-}
-
-.side__link--active::before {
-  content: "";
-  position: absolute;
-  left: 8px;
-  top: 8px;
-  bottom: 8px;
-  width: 4px;
-  border-radius: 999px;
-  background: var(--ph-accent, #f9f506);
 }
 
 .side__link--active .ms {

@@ -1,4 +1,3 @@
-import { Site } from './Site';
 import { OsteologicalUnit } from './OsteologicalUnit';
 
 export interface Individual {
